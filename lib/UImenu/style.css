@@ -1,0 +1,48 @@
+#UIMenu *
+{
+	user-select: none;
+}
+
+#UIMenu
+{
+    width: 350px;
+    height: 480px;
+    background-color: #e0e0e0;
+    border-radius: 4px;
+    border: 1px solid #bdbdbd;
+    box-shadow: 7px 7px 13px #00000042;
+    position: absolute;
+}
+
+.UIMenuElements.title
+{
+	position: relative;
+	padding: 10px;
+	text-align: center;
+	font-family: sans-serif;
+	font-weight: bold;
+	color: #fdf8f8;
+	text-shadow: 1px 1px 5px #000000;
+	cursor: default;
+	background-color: #cccccc;
+}
+
+#UIMenu .body
+{
+	overflow-y: auto;
+	max-height: 441.6px;
+}
+
+.UIMenuElements.closeBtn
+{
+	color: red;
+	cursor: pointer;
+	float: right;
+	position: absolute;
+	top: 5px;
+	right: 10px;
+	font-family: sans-serif;
+	font-size: 22px;
+	font-weight: bold;
+	text-shadow: 1px 1px 2px grey;
+}

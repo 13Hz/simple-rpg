@@ -367,7 +367,7 @@ if(true)
 	invAction.className = "invAction";
 	invNode.appendChild(invAction);
 
-	//windows.push(new UIMenu("KeyC", "characters", "Характеристики", windows))
+	windows.push(new UIMenu("KeyC", "characters", "Характеристики", windows))
 	//windows.push(new UIMenu("KeyT", "test", "Тест", windows))
 	windows.push(new UIMenu("none", "count", "Количество", windows))
 	
