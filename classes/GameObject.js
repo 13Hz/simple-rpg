@@ -1,4 +1,4 @@
-﻿class GameObject
+﻿export class GameObject
 {
 	constructor(x, y)
 	{

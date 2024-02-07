@@ -1,4 +1,11 @@
-﻿class Creature extends GameObject
+﻿import {GameObject} from "./GameObject.js";
+import {Inventory} from "./Inventory.js";
+import {Dropping} from "./Dropping.js";
+import {Drop} from "./Drop.js";
+import {ItemList} from "./ItemList.js";
+import {rnd} from "./Functions.js";
+
+export class Creature extends GameObject
 {	
 	constructor()
 	{
@@ -115,6 +122,6 @@
 			item.stackable = true;
 		item.x = this.x + rnd(-20,20);
 		item.y = this.y + rnd(-20,20);
-		items.push(item);
+		window.items.push(item);
 	}
 }

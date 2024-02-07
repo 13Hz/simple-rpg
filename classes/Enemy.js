@@ -1,4 +1,7 @@
-﻿class Enemy extends Creature
+﻿import {Creature} from "./Creature.js";
+import {checkCollision, getLogString} from "./Functions.js";
+
+export class Enemy extends Creature
 {	
 	constructor(x, y)
 	{

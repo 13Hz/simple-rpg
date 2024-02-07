@@ -1,4 +1,6 @@
-﻿class Sword extends GameObject
+﻿import {GameObject} from "./GameObject.js";
+
+export class Bullet extends GameObject
 {
 	constructor(x, y, angle, enemy, size)
 	{
@@ -8,9 +10,9 @@
 		this.speed = 1;
 		this.x = x;
 		this.y = y;
-
-		this.color = "white";
-		this.width = 2;
+		this.mpCost = 10;
+		this.color = "red";
+		this.width = 5 * this.size;
 		this.height = 5 * this.size;
 		this.damage = 10;
 		this.enemy = enemy;

@@ -1,4 +1,6 @@
-﻿class FireBall extends Bullet
+﻿import {Bullet} from "./Bullet.js";
+
+export class FireBall extends Bullet
 {
 	constructor(x,y,angle,speed,mpCost,color)
 	{

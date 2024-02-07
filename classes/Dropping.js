@@ -1,15 +1,4 @@
-// ID : [ ITEM , CHANSE ]
-class Drop
-{
-	constructor(itemId, chanse)
-	{
-		this.itemId = itemId;
-		this.chanse = chanse;
-	}
-
-}
-
-class Dropping
+export class Dropping
 {
 	constructor(items)
 	{
@@ -23,14 +12,12 @@ class Dropping
 			var result = Math.random() * 100;
 			if(result <= this.items[i].chanse)
 			{
-				if(this.items[i].itemId == 3)
-					console.log("ZXCZXC");
 				var item = null;
-				for(var j = 0; j < itemList.length; j++)
+				for(var j = 0; j < window.itemList.length; j++)
 				{
-					if(this.items[i].itemId == itemList[j].id)
+					if(this.items[i].itemId == window.itemList[j].id)
 					{
-						item = itemList[j];
+						item = window.itemList[j];
 						break;
 					}
 				}

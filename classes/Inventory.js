@@ -1,4 +1,4 @@
-﻿class Inventory
+﻿export class Inventory
 {
 	constructor()
 	{

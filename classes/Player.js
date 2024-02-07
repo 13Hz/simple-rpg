@@ -1,4 +1,9 @@
-﻿class Player extends Creature
+﻿import {Creature} from "./Creature.js";
+import {IceBall} from "./IceBall.js";
+import {rnd} from "./Functions.js";
+import {FireBall} from "./FireBall.js";
+
+export class Player extends Creature
 {	
 	constructor()
 	{
@@ -249,10 +254,7 @@
 				this.luc = 1;
 				
 				this.cp = 0;
-				checker = true;
 			}
-			if(!this.abuseMode && checker)
-				this.abuseMode = true;
 		}
 	}
 

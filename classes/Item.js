@@ -1,4 +1,8 @@
-﻿class Item extends GameObject
+﻿import {GameObject} from "./GameObject.js";
+import {getLogString} from "./Functions.js";
+import {remove} from "./Functions.js";
+
+export class Item extends GameObject
 {
 	constructor(x, y, cost)
 	{
@@ -31,7 +35,7 @@
 		{
 			ctx.fillStyle = this.color;
 			ctx.fillRect(this.x - this.width / 2, this.y - this.height / 2, this.width, this.height);
-			if(this.onHover || player.shift)
+			if(this.onHover || window.player.shift)
 			{
 				ctx.font = "12px";
 				switch(this.rarity)
@@ -200,12 +204,12 @@
 								if(item.count > 1)
 								{
 									document.querySelector("#UIMenu.count").hidden = false;
-									itemSellTrack.value = 1;
-									itemSellTrack.min = 1;
-									itemSellTrack.max = item.count;
-									itemSellTrack.currentItemId = id;
-									itemSellTrack.selectedRow = itemRow;
-									itemSellTrack.update();
+									window.itemSellTrack.value = 1;
+									window.itemSellTrack.min = 1;
+									window.itemSellTrack.max = item.count;
+									window.itemSellTrack.currentItemId = id;
+									window.itemSellTrack.selectedRow = itemRow;
+									window.itemSellTrack.update();
 									//item.count--;	
 									//itemRow.querySelector(".itemName").innerText = item.name + " (" + item.count + ")";
 								}

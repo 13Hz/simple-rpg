@@ -1,4 +1,4 @@
-﻿function checkCollision(obj1, obj2)
+﻿export function checkCollision(obj1, obj2)
 {
 	var w1 = obj1.width / 2;
 	var h1 = obj1.height / 2;
@@ -11,7 +11,7 @@
 		return false;
 }
 
-function getAngle(x0,y0,x1,y1,radian = false)
+export function getAngle(x0,y0,x1,y1,radian = false)
 {
 	if(radian)
 	{
@@ -24,17 +24,17 @@ function getAngle(x0,y0,x1,y1,radian = false)
 	}
 }
 
-function rnd(min, max)
+export function rnd(min, max)
 {
 	return Math.floor(Math.random() * (max - min) + min);
 }
 
-function getDistance(x0,y0,x1,y1)
+export function getDistance(x0,y0,x1,y1)
 {
 	return Math.sqrt(Math.pow(x0 - x1, 2) + Math.pow(y0 - y1, 2));
 }
 
-function getItemById(id, player)
+export function getItemById(id, player)
 {
 	for(var i = 0; i < player.inventory.items.length; i++)
 	{
@@ -43,7 +43,7 @@ function getItemById(id, player)
 	}
 }
 
-function formatGoldString(gold)
+export function formatGoldString(gold)
 {
 	gold = gold.toString();
 	var len = gold.length;
@@ -69,16 +69,16 @@ function formatGoldString(gold)
 	return str;
 }
 
-function getItemListById(id)
+export function getItemListById(id)
 {
-	for(var i = 0; i < itemList.length; i++)
+	for(var i = 0; i < window.itemList.length; i++)
 	{
-		if(id == itemList[i].id)
-			return itemList[i];
+		if(id == window.itemList[i].id)
+			return window.itemList[i];
 	}
 }
 
-function removeAt(arr, id)
+export function removeAt(arr, id)
 {
 	var newArray = [];
 	for(var i = 0; i < arr.length; i++)
@@ -89,21 +89,7 @@ function removeAt(arr, id)
 	return newArray;
 }
 
-function checkAbuse()
-{
-	var now = new Date().getHours + new Date().getMinutes() + new Date.getSeconds();
-	if(now == checker)
-		return true;
-	else
-		return false;
-}
-
-function spawnItem(id)
-{
-	
-}
-
-function getElementInList(el, array)
+export function getElementInList(el, array)
 {
 	for(var i = 0; i < array.length; i++)
 	{
@@ -114,7 +100,7 @@ function getElementInList(el, array)
 	}
 }
 
-function remove(arr, value)
+export function remove(arr, value)
 {
 	var newArray = [];
 	for(var i = 0; i < arr.length; i++)
@@ -125,13 +111,8 @@ function remove(arr, value)
 	return newArray;
 }
 
-function getLogString(str)
+export function getLogString(str)
 {
 	var date = new Date();
 	return "[" + date.toTimeString().slice(0, 8) + "] " + str;
-}
-
-function massSpawn(lvl, count)
-{
-	for(let i = 0;i<count;i++){spawnLvl(lvl);}
 }
