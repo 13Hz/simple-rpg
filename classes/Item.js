@@ -1,6 +1,5 @@
 ﻿import {GameObject} from "./GameObject.js";
-import {getLogString} from "./Functions.js";
-import {remove} from "./Functions.js";
+import {getItemById, getItemListById, getLogString, remove} from "./Functions.js";
 
 export class Item extends GameObject
 {
@@ -137,8 +136,9 @@ export class Item extends GameObject
 						document.querySelector("#description .title").innerHTML = hoverItem.name;
 						document.querySelector("#description .body").innerHTML = itemList.description + "<br><br>";
 						document.querySelector("#description .body").innerHTML += "Тип: " + hoverItem.types[hoverItem.type] + "<br>" + "Стоимость: " + hoverItem.cost;
-						hoverDesc = true;
 						document.querySelector("#description").style.display = "block";
+
+						hoverDesc = true;
 					}
 					
 					itemName.onmouseout = function(e)
