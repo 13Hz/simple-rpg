@@ -253,3 +253,7 @@ body
     font-family: Georgia;
     font-size: 11pt;
 }
+.main__container {
+    display: flex;
+    gap: 30px;
+}

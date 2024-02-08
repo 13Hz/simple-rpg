@@ -34,6 +34,11 @@ export function getDistance(x0,y0,x1,y1)
 	return Math.sqrt(Math.pow(x0 - x1, 2) + Math.pow(y0 - y1, 2));
 }
 
+export function updateGoldText()
+{
+	document.querySelector("#UIMenu.inventory .invAction").innerHTML = "Золото: " + formatGoldString(window.player.inventory.gold);
+}
+
 export function getItemById(id, player)
 {
 	for(var i = 0; i < player.inventory.items.length; i++)

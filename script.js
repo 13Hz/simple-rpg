@@ -222,8 +222,6 @@ function update()
 		document.documentElement.style.cursor = "pointer";
 	else
 		document.documentElement.style.cursor = "";
-
-	document.querySelector("#UIMenu.inventory .invAction").innerHTML = "Золото: " + formatGoldString(window.player.inventory.gold);
 }
 
 function regen()
@@ -266,6 +264,7 @@ windows.push(new UIMenu("KeyI", "inventory", "Инвентарь", windows))
 var invNode = document.querySelector("#UIMenu.inventory");
 var invAction = document.createElement("div");
 invAction.className = "invAction";
+invAction.innerText = "Золото: 0";
 invNode.appendChild(invAction);
 
 windows.push(new UIMenu("KeyC", "characters", "Характеристики", windows))

@@ -1,5 +1,5 @@
 ﻿import {GameObject} from "./GameObject.js";
-import {getItemById, getItemListById, getLogString, remove} from "./Functions.js";
+import {getItemById, getItemListById, getLogString, remove, updateGoldText} from "./Functions.js";
 
 export class Item extends GameObject
 {
@@ -198,9 +198,6 @@ export class Item extends GameObject
 							var item = player.inventory.items[i];
 							if(item.id == id)
 							{
-								
-								//item.x = player.x;
-								//item.y = player.y;
 								if(item.count > 1)
 								{
 									document.querySelector("#UIMenu.count").hidden = false;
@@ -210,8 +207,6 @@ export class Item extends GameObject
 									window.itemSellTrack.currentItemId = id;
 									window.itemSellTrack.selectedRow = itemRow;
 									window.itemSellTrack.update();
-									//item.count--;	
-									//itemRow.querySelector(".itemName").innerText = item.name + " (" + item.count + ")";
 								}
 								else if(item.count == 1)
 								{
@@ -219,6 +214,7 @@ export class Item extends GameObject
 									invNode.removeChild(itemRow);
 									player.inventory.gold += item.cost;
 								}
+								updateGoldText();
 								break;
 							}
 						}
