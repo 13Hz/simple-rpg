@@ -236,25 +236,6 @@ export class Player extends Creature
 			{
 				this.levelUp();
 			}
-			
-			if(this.abuseMode)
-			{
-				this.exp = 0;
-				this.maxExp = 999999999999;
-				this.lvl = 1;
-				
-				this.maxHp = 1;
-
-				this.maxMp = 10;
-				
-				this.str = 1;
-				this.dex = 1;
-				this.sta = 1;
-				this.int = 1;
-				this.luc = 1;
-				
-				this.cp = 0;
-			}
 		}
 	}
 

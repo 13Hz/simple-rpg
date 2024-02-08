@@ -134,8 +134,9 @@ export class Item extends GameObject
 						hoverItem = getItemById(id, player);
 						var itemList = getItemListById(hoverItem.itemId);
 						document.querySelector("#description .title").innerHTML = hoverItem.name;
-						document.querySelector("#description .body").innerHTML = itemList.description + "<br><br>";
-						document.querySelector("#description .body").innerHTML += "Тип: " + hoverItem.types[hoverItem.type] + "<br>" + "Стоимость: " + hoverItem.cost;
+						document.querySelector("#description .body .description__text").innerHTML = itemList.description;
+						document.querySelector("#description .body .description__type .type__value").innerText = hoverItem.types[hoverItem.type];
+						document.querySelector("#description .body .description__cost .cost__value").innerText = hoverItem.cost;
 						document.querySelector("#description").style.display = "block";
 
 						hoverDesc = true;

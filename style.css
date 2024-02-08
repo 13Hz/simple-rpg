@@ -247,13 +247,29 @@ body
     color: #fdf8f8;
     text-shadow: 1px 1px 5px #000000;
 }
+
+#description .body .description__text {
+    margin-bottom: 20px;
+}
+
 #description .body
 {
     padding: 15px;
     font-family: Georgia;
     font-size: 11pt;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
 }
 .main__container {
     display: flex;
     gap: 30px;
+}
+
+.flex {
+    display: flex;
+}
+
+.gap-10 {
+    gap: 10px;
 }
