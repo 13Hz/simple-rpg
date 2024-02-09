@@ -1,5 +1,8 @@
 import {Creature} from './creature';
 import {DrawContext} from './drawContext';
+import {BulletsManager} from "../managers/bulletsManager";
+import {IceBall} from "./iceBall";
+import {Point} from "../types/point";
 
 export class Player extends Creature implements IControlable, IUpdatable {
     w: boolean = false;
@@ -13,8 +16,8 @@ export class Player extends Creature implements IControlable, IUpdatable {
     maxPower: number = 3;
     baseDamage: number = 5;
 
-    constructor(x: number, y:number) {
-        super(x, y, 'white');
+    constructor(point: Point) {
+        super(point, 'white');
     }
 
     keyDown(e: KeyboardEvent): void {
@@ -75,8 +78,8 @@ export class Player extends Creature implements IControlable, IUpdatable {
             if (!this.a && !this.w && !this.s && !this.d && (this.yVelocity < this.speed && this.yVelocity > -this.speed))
                 this.yVelocity = 0;
 
-            this.x += this.xVelocity;
-            this.y += this.yVelocity;
+            this.point.x += this.xVelocity;
+            this.point.y += this.yVelocity;
 
             if (this.health <= 0) {
                 this.health = 0;
@@ -91,12 +94,12 @@ export class Player extends Creature implements IControlable, IUpdatable {
         const ctx = DrawContext.getContext();
         const canvas = DrawContext.getCanvas();
         const prevFillStyle = ctx.fillStyle;
-        
+
         ctx.fillStyle = 'gray';
         ctx.fillRect(8, 8, 104, 14);
 
         ctx.fillStyle = 'red';
-        ctx.fillRect(10,10, this.health * 100 / this.maxHealth, 10);
+        ctx.fillRect(10, 10, this.health * 100 / this.maxHealth, 10);
 
         ctx.font = '12px';
         ctx.fillStyle = 'white';
@@ -107,7 +110,7 @@ export class Player extends Creature implements IControlable, IUpdatable {
         ctx.fillRect(8, 28, 104, 14);
 
         ctx.fillStyle = 'blue';
-        ctx.fillRect(10,30, this.mana * 100 / this.maxMana, 10);
+        ctx.fillRect(10, 30, this.mana * 100 / this.maxMana, 10);
 
         ctx.font = '12px';
         ctx.fillStyle = 'white';
@@ -130,16 +133,38 @@ export class Player extends Creature implements IControlable, IUpdatable {
 
         // HOLDING BAR
 
-        if(this.holding && this.power > this.minPower)
-        {
+        if (this.holding && this.power > this.minPower) {
             ctx.fillStyle = 'gray';
-            ctx.fillRect(this.x - 20, this.y - 15, 40, 5);
+            ctx.fillRect(this.getCenter().x - 20, this.point.y - 15, 40, 5);
 
             ctx.fillStyle = 'aqua';
-            ctx.fillRect(this.x - 20, this.y - 15, (this.power - 1) * 40 / (this.maxPower + 1) * 2, 5);
+            ctx.fillRect(this.getCenter().x - 20, this.point.y - 15, (this.power - 1) * 40 / (this.maxPower + 1) * 2, 5);
         }
 
         ctx.fillStyle = prevFillStyle;
+    }
+
+    regeneration() {
+        if (this.health < this.maxHealth)
+            this.health += this.isRunning ? this.healthRegenerationRate * 2 : this.healthRegenerationRate;
+        else
+            this.health = this.maxHealth;
+        if (this.mana < this.maxMana)
+            this.mana += this.isRunning ? this.manaRegenerationRate * 2 : this.manaRegenerationRate;
+        else
+            this.mana = this.maxMana;
+    }
+
+    shoot(rad: number, diff: number) {
+        const bullet = new IceBall(this.getCenter(), rad, diff);
+        bullet.damage += this.baseDamage * this.lvl;
+        bullet.damage *= this.power;
+        bullet.manaCost *= this.power;
+
+        if (this.isAlive && this.mana >= bullet.manaCost) {
+            this.mana -= bullet.manaCost;
+            BulletsManager.add(bullet);
+        }
     }
 
     draw() {
