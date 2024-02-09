@@ -1,8 +1,8 @@
 import {Creature} from './creature';
-import {BulletsManager} from "../managers/bulletsManager";
 import {IceBall} from "./iceBall";
 import {Point} from "../types/point";
 import {Ui} from "./ui";
+import {GameManager} from "../managers/gameManager";
 
 export class Player extends Creature {
     public w: boolean = false;
@@ -51,6 +51,7 @@ export class Player extends Creature {
     }
 
     update() {
+        super.update();
         if (this.isAlive) {
             if (this.d && this.xVelocity < this.maxVelocity)
                 this.xVelocity += this.speed;
@@ -90,17 +91,6 @@ export class Player extends Creature {
         }
     }
 
-    regeneration() {
-        if (this.health < this.maxHealth)
-            this.health += this.isRunning ? this.healthRegenerationRate * 2 : this.healthRegenerationRate;
-        else
-            this.health = this.maxHealth;
-        if (this.mana < this.maxMana)
-            this.mana += this.isRunning ? this.manaRegenerationRate * 2 : this.manaRegenerationRate;
-        else
-            this.mana = this.maxMana;
-    }
-
     shoot(rad: number, diff: number) {
         const bullet = new IceBall(this.getCenter(), rad, diff * 5);
         bullet.damage += this.baseDamage * this.lvl;
@@ -109,7 +99,7 @@ export class Player extends Creature {
 
         if (this.isAlive && this.mana >= bullet.manaCost) {
             this.mana -= bullet.manaCost;
-            BulletsManager.add(bullet);
+            GameManager.bulletsManager.add(bullet);
         }
     }
 

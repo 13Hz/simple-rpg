@@ -6,7 +6,7 @@ export class Ui {
     private static context: CanvasRenderingContext2D = DrawContext.getContext();
     private static canvas: HTMLCanvasElement = DrawContext.getCanvas();
 
-    private static drawBar(x: number, y: number, width: number, height: number, value: number, minValue: number, maxValue: number, color: string, padding: number = 2, drawText: boolean = true, drawOnChange = false): void {
+    public static drawBar(x: number, y: number, width: number, height: number, value: number, minValue: number, maxValue: number, color: string, padding: number = 2, drawText: boolean = true, drawOnChange = false): void {
         if (drawOnChange && value == minValue) {
             return;
         }

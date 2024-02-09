@@ -1,7 +1,8 @@
 import {GameObject} from "./gameObject";
 import {Point} from "../types/point";
+import {IDamages} from "../types/iDamages";
 
-export class Bullet extends GameObject {
+export class Bullet extends GameObject implements IDamages{
     angle: number;
     speed: number;
     manaCost: number;
@@ -24,6 +25,7 @@ export class Bullet extends GameObject {
     }
 
     update() {
+        super.update();
         this.checkInRoom();
 
         if (this.isAlive) {

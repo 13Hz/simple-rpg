@@ -2,17 +2,13 @@ import './style.css';
 
 import {Player} from "./classes/player";
 import {DrawContext} from "./classes/drawContext";
-import {CursorManager} from "./managers/cursorManager";
-import {BulletsManager} from "./managers/bulletsManager";
 import {GameManager} from "./managers/gameManager";
+import {Enemy} from "./classes/enemy";
 
-
-GameManager.cursorManager = new CursorManager();
-GameManager.bulletsManager = new BulletsManager();
 GameManager.player = new Player({x: 100, y: 100});
 
 const canvas = DrawContext.getCanvas();
-
+GameManager.enemiesManager.add(new Enemy({x: 400, y: 400}));
 document.addEventListener('keydown', (e) => GameManager.player.keyDown(e));
 document.addEventListener('keyup', (e) => GameManager.player.keyUp(e));
 
@@ -31,12 +27,14 @@ function update(): void {
     }
     GameManager.player.update();
     GameManager.bulletsManager.update();
+    GameManager.enemiesManager.update();
 }
 
 function draw(): void {
     clear();
     GameManager.player.draw();
     GameManager.bulletsManager.draw();
+    GameManager.enemiesManager.draw();
 }
 
 function clear(): void {

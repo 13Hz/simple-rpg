@@ -1,5 +1,8 @@
 import {DrawContext} from "./drawContext";
 import {Point} from "../types/point";
+import {GameManager} from "../managers/gameManager";
+import {TypedEvent} from "./typedEvent";
+import {checkCollision} from "../utils/functions";
 
 export class GameObject {
     public point: Point;
@@ -7,6 +10,9 @@ export class GameObject {
     public width: number;
     public height: number;
     public color: string;
+    public isHover: boolean = false;
+
+    onCollision: TypedEvent<GameObject> = new TypedEvent<GameObject>();
 
     constructor(point: Point, size: number = 10, color: string = 'red') {
         this.point = point;
@@ -29,6 +35,16 @@ export class GameObject {
                 this.isAlive = false;
             }
         }
+    }
+
+    update() {
+        const cursorPoint = GameManager.cursorManager.point;
+        this.isHover = (cursorPoint.x >= this.point.x && cursorPoint.x <= this.point.x + this.width) && (cursorPoint.y >= this.point.y && cursorPoint.y <= this.point.y + this.height);
+        GameManager.getAllGameObject().forEach((object) => {
+            if (object !== this && checkCollision(this, object)) {
+                this.onCollision.emit(object);
+            }
+        });
     }
 
     draw() {
