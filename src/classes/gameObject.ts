@@ -32,10 +32,9 @@ export class GameObject {
     }
 
     draw() {
-        const prevFillStyle = DrawContext.getContext().fillStyle;
-
-        DrawContext.getContext().fillStyle = this.color;
-        DrawContext.getContext().fillRect(this.point.x, this.point.y, this.width, this.height);
-        DrawContext.getContext().fillStyle = prevFillStyle;
+        DrawContext.draw((context) => {
+            context.fillStyle = this.color;
+            context.fillRect(this.point.x, this.point.y, this.width, this.height);
+        });
     }
 }

@@ -1,8 +1,9 @@
+import './style.css';
+
 import {Player} from "./classes/player";
 import {DrawContext} from "./classes/drawContext";
 import {CursorManager} from "./managers/cursorManager";
 import {BulletsManager} from "./managers/bulletsManager";
-import './style.css';
 import {GameManager} from "./managers/gameManager";
 
 
@@ -39,11 +40,10 @@ function draw(): void {
 }
 
 function clear(): void {
-    const prevFillStyle = DrawContext.getContext().fillStyle;
-
-    DrawContext.getContext().fillStyle = '#000';
-    DrawContext.getContext().fillRect(0, 0, canvas.width, canvas.height);
-    DrawContext.getContext().fillStyle = prevFillStyle;
+    DrawContext.draw((context) => {
+        context.fillStyle = '#000';
+        context.fillRect(0, 0, canvas.width, canvas.height);
+    });
 }
 
 let mStart: Date | null = null;

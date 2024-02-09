@@ -18,4 +18,10 @@ export class DrawContext {
 
         return this.context;
     }
+
+    static draw(callback: (context: CanvasRenderingContext2D) => void): void {
+        const prevFillStyle = this.getContext().fillStyle;
+        callback(this.context);
+        this.context.fillStyle = prevFillStyle;
+    }
 }

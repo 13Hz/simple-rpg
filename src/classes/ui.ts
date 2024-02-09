@@ -42,13 +42,11 @@ export class Ui {
     }
 
     public static draw(): void {
-        const prevFillStyle = this.context.fillStyle;
-
-        this.drawBar(5, 5, 100, 15, GameManager.player.health, 0, GameManager.player.maxHealth, 'red');
-        this.drawBar(5, 25, 100, 15, GameManager.player.mana, 0, GameManager.player.maxMana, 'blue');
-        this.drawBar(GameManager.player.point.x - 15, GameManager.player.point.y - 10, GameManager.player.width + 30, 5, GameManager.player.power, 1, 3, 'aqua', 0, false, true);
-        this.drawExpBar();
-
-        this.context.fillStyle = prevFillStyle;
+        DrawContext.draw(() => {
+            this.drawBar(5, 5, 100, 15, GameManager.player.health, 0, GameManager.player.maxHealth, 'red');
+            this.drawBar(5, 25, 100, 15, GameManager.player.mana, 0, GameManager.player.maxMana, 'blue');
+            this.drawBar(GameManager.player.point.x - 15, GameManager.player.point.y - 10, GameManager.player.width + 30, 5, GameManager.player.power, 1, 3, 'aqua', 0, false, true);
+            this.drawExpBar();
+        });
     }
 }
