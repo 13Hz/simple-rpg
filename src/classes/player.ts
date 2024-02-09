@@ -1,20 +1,20 @@
 import {Creature} from './creature';
-import {DrawContext} from './drawContext';
 import {BulletsManager} from "../managers/bulletsManager";
 import {IceBall} from "./iceBall";
 import {Point} from "../types/point";
+import {Ui} from "./ui";
 
 export class Player extends Creature implements IControlable, IUpdatable {
-    w: boolean = false;
-    a: boolean = false;
-    s: boolean = false;
-    d: boolean = false;
+    public w: boolean = false;
+    public a: boolean = false;
+    public s: boolean = false;
+    public d: boolean = false;
 
-    holding: boolean = false;
-    power: number = 1;
-    minPower: number = 1;
-    maxPower: number = 3;
-    baseDamage: number = 5;
+    public holding: boolean = false;
+    public power: number = 1;
+    public minPower: number = 1;
+    public maxPower: number = 1;
+    public baseDamage: number = 5;
 
     constructor(point: Point) {
         super(point, 10, 'white');
@@ -90,60 +90,6 @@ export class Player extends Creature implements IControlable, IUpdatable {
         }
     }
 
-    private drawUi(): void {
-        const ctx = DrawContext.getContext();
-        const canvas = DrawContext.getCanvas();
-        const prevFillStyle = ctx.fillStyle;
-
-        ctx.fillStyle = 'gray';
-        ctx.fillRect(8, 8, 104, 14);
-
-        ctx.fillStyle = 'red';
-        ctx.fillRect(10, 10, this.health * 100 / this.maxHealth, 10);
-
-        ctx.font = '12px';
-        ctx.fillStyle = 'white';
-        ctx.fillText((this.health * 100 / this.maxHealth).toFixed(2) + '%', 45, 18);
-
-        // MP BAR
-        ctx.fillStyle = 'gray';
-        ctx.fillRect(8, 28, 104, 14);
-
-        ctx.fillStyle = 'blue';
-        ctx.fillRect(10, 30, this.mana * 100 / this.maxMana, 10);
-
-        ctx.font = '12px';
-        ctx.fillStyle = 'white';
-        ctx.fillText((this.mana * 100 / this.maxMana).toFixed(2) + '%', 45, 38);
-        //========
-
-        // EXP BAR
-        ctx.fillStyle = 'gray';
-        ctx.fillRect(20, canvas.height - 10, canvas.width - 40, 5);
-
-        ctx.fillStyle = 'yellow';
-        ctx.fillRect(20, canvas.height - 10, this.exp * (canvas.width - 40) / this.maxExp, 5);
-
-        ctx.font = '12px';
-        ctx.fillStyle = 'white';
-        ctx.fillText('LVL: ' + this.lvl, 20, canvas.height - 15);
-        ctx.fillText((this.exp * 100 / this.maxExp).toFixed(2) + '%', canvas.width - 50, canvas.height - 15);
-
-        //========
-
-        // HOLDING BAR
-
-        if (this.holding && this.power > this.minPower) {
-            ctx.fillStyle = 'gray';
-            ctx.fillRect(this.getCenter().x - 20, this.point.y - 15, 40, 5);
-
-            ctx.fillStyle = 'aqua';
-            ctx.fillRect(this.getCenter().x - 20, this.point.y - 15, (this.power - 1) * 40 / (this.maxPower + 1) * 2, 5);
-        }
-
-        ctx.fillStyle = prevFillStyle;
-    }
-
     regeneration() {
         if (this.health < this.maxHealth)
             this.health += this.isRunning ? this.healthRegenerationRate * 2 : this.healthRegenerationRate;
@@ -169,6 +115,6 @@ export class Player extends Creature implements IControlable, IUpdatable {
 
     draw() {
         super.draw();
-        this.drawUi();
+        Ui.draw();
     }
 }

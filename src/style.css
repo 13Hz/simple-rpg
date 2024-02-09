@@ -1,0 +1,273 @@
+* {
+    user-select: none;
+}
+
+#UIMenu .sell-btn {
+    border-radius: 5px;
+    border: 1px solid #afafaf;
+    box-shadow: -1px -1px 3px #afafaf;
+    margin-top: 52px;
+}
+
+#UIMenu.count .body {
+    min-height: auto;
+    min-width: auto;
+    text-align: -webkit-center;
+    background-color: white;
+    width: 100%;
+}
+
+#UIMenu.count {
+    min-height: auto;
+    height: 150px;
+    width: 235px;
+    overflow-y: hidden;
+}
+
+#lvlup {
+    display: none;
+    position: absolute;
+    width: 10px;
+    height: 10px;
+    border-radius: 2px;
+    font-size: 10px;
+    text-align: center;
+    color: #795454;
+    border: 1px solid #c3c36c;
+    background-color: #82dcdc;
+    box-shadow: 0px 0px 0px #fff88d;
+    bottom: 70px;
+    cursor: pointer;
+    left: 57px;
+    animation: blink 1s ease-out infinite;
+}
+
+@keyframes blink {
+    0% {
+        box-shadow: 0px 0px 1px #fff88d;
+    }
+    50% {
+        box-shadow: 0px 0px 25px #fff88d;
+    }
+    100% {
+        box-shadow: 0px 0px 1px #fff88d;
+    }
+}
+
+body {
+    position: relative;
+    overflow: hidden;
+    margin: 0;
+}
+
+#canvas {
+
+}
+
+#close:hover {
+    color: #ff0000a3;
+}
+
+#close:active {
+    color: yellow;
+}
+
+#close {
+    color: red;
+    font-size: 12pt;
+    font-family: sans-serif;
+    font-weight: bold;
+    position: absolute;
+    top: 1px;
+    right: 3px;
+    text-shadow: 1px 1px 1px black;
+    cursor: pointer;
+    transition: .4s ease;
+}
+
+#character .line {
+    width: 100%;
+    height: 20px;
+    color: blue;
+    background-color: #c7e5ff;
+}
+
+#character {
+    display: none;
+    user-select: none;
+    width: 20%;
+    height: 60%;
+    background-color: #ffffff;
+    position: absolute;
+    top: 20%;
+    left: 40%;
+    box-shadow: 3px 3px 3px gray;
+    border: 1px solid #5f5f5f;
+    border-radius: 4px;
+}
+
+.tabs {
+    display: flex;
+    justify-content: space-around;
+    padding: 5px;
+}
+
+.tab {
+    width: 100%;
+    text-align: center;
+    cursor: pointer;
+    padding: 3px;
+    font-family: monospace;
+    font-weight: bold;
+    font-size: large;
+}
+
+.tab:active {
+    background-color: #8080802e;
+}
+
+.tab:hover {
+    border-bottom: 2px solid #ffbea5;
+}
+
+.data {
+    display: block;
+}
+
+.data.hidden {
+    display: none;
+}
+
+#UIMenu {
+    min-height: 480px;
+    height: auto;
+}
+
+#UIMenu .body {
+    min-height: 430px;
+    max-height: 430px;
+}
+
+#UIMenu .itemRow {
+    height: 40px;
+    overflow: hidden;
+    background-color: #efefef;
+    border-bottom: 1px solid #ababab;
+}
+
+#UIMenu .invAction {
+    height: 40px;
+    background-color: white;
+    border-top: 1px solid #ababab;
+    width: 100%;
+}
+
+#UIMenu .itemRow .itemName {
+    padding-left: 18px;
+    padding-top: 8px;
+    font-weight: bold;
+    font-family: cursive;
+    color: #475369;
+    float: left;
+}
+
+#UIMenu .itemRow .itemName.magic {
+    color: #3d9861;
+}
+
+#UIMenu .itemRow .itemName.myst {
+    color: #44a0a5;
+}
+
+#UIMenu .itemRow .itemName.rare {
+    color: #9e9b41;
+}
+
+#UIMenu .itemRow .itemName.unic {
+    color: #c5512d;
+}
+
+#UIMenu .itemAction {
+    display: flex;
+    float: right;
+    width: 110px;
+    padding-left: 18px;
+    padding-top: 6.8px;
+    justify-content: space-evenly;
+    font-weight: bold;
+    font-size: 16pt;
+    font-family: sans-serif;
+    text-shadow: 1px 1px 1px #7b7b7b78;
+}
+
+#UIMenu .itemAction .equipItem {
+    color: #5ac75a;
+}
+
+#UIMenu .itemAction .sellItem {
+    color: gold;
+}
+
+#UIMenu .itemAction .dropItem {
+    color: #ce3636;
+}
+
+#UIMenu .itemAction .action {
+    cursor: pointer;
+}
+
+#UIMenu .itemAction .disabled {
+    color: #cecece;
+    cursor: default;
+}
+
+#description {
+    position: absolute;
+    top: 165.5px;
+    left: 606px;
+    background-color: #e4e4e4;
+    border-radius: 4px;
+    box-shadow: 2px 2px 4px #79797978;
+    z-index: 999;
+    border: 1px solid #b1b1b1;
+    max-width: 200px;
+    display: none;
+}
+
+#description .title {
+    background-color: #a9b7bf;
+    padding: 5px;
+    border-top-left-radius: 4px;
+    border-top-right-radius: 4px;
+    text-align: center;
+    font-family: sans-serif;
+    font-weight: bold;
+    color: #fdf8f8;
+    text-shadow: 1px 1px 5px #000000;
+}
+
+#description .body .description__text {
+    margin-bottom: 20px;
+}
+
+#description .body {
+    padding: 15px;
+    font-family: Georgia;
+    font-size: 11pt;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.main__container {
+    display: flex;
+    gap: 30px;
+}
+
+.flex {
+    display: flex;
+}
+
+.gap-10 {
+    gap: 10px;
+}

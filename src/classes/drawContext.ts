@@ -3,7 +3,7 @@ export class DrawContext {
     private static canvas: HTMLCanvasElement;
 
     static getCanvas(): HTMLCanvasElement {
-        const id: string = '#cnv';
+        const id: string = '#canvas';
         if (!this.canvas) {
             this.canvas = document.querySelector(id)!;
         }

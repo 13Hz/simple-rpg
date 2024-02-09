@@ -2,6 +2,7 @@ import {Player} from "./classes/player";
 import {DrawContext} from "./classes/drawContext";
 import {CursorManager} from "./managers/cursorManager";
 import {BulletsManager} from "./managers/bulletsManager";
+import './style.css';
 
 declare global {
     interface Window {
