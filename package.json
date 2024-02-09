@@ -1,4 +1,9 @@
 {
+  "name": "simpe-rpg",
+  "version": "0.0.1",
+  "description": "Simple TSD RPG game on TypeScript",
+  "homepage": "https://github.com/13Hz/simple-rpg",
+  "author": "13Hz <async13hhz@gmail.com>",
   "scripts": {
     "dev": "parcel index.html --open",
     "build": "parcel build index.html"
