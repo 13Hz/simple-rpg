@@ -17,7 +17,7 @@ export class TypedEvent<T> {
     };
 
     off = (listener: Listener<T>) => {
-        var callbackIndex = this.listeners.indexOf(
+        const callbackIndex = this.listeners.indexOf(
             listener
         );
         if (callbackIndex > -1)

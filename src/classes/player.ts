@@ -4,7 +4,7 @@ import {IceBall} from "./iceBall";
 import {Point} from "../types/point";
 import {Ui} from "./ui";
 
-export class Player extends Creature implements IControlable, IUpdatable {
+export class Player extends Creature {
     public w: boolean = false;
     public a: boolean = false;
     public s: boolean = false;

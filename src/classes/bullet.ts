@@ -1,7 +1,7 @@
 import {GameObject} from "./gameObject";
 import {Point} from "../types/point";
 
-export class Bullet extends GameObject implements IUpdatable {
+export class Bullet extends GameObject {
     angle: number;
     speed: number;
     manaCost: number;
