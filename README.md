@@ -7,7 +7,7 @@
 ## Запуск и установка
 1. Скачать репозиторий
 ```bash
-git clone git@github.com:13Hz/js-simple-rpg.git
+git clone git@github.com:13Hz/simple-rpg.git
 ```
 2. Установить зависимости
 ```bash
