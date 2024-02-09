@@ -9,6 +9,7 @@ export class Enemy extends Creature {
     spawnPoint: Point
     target: Point | null;
     name: string = 'Dummy';
+    isTakeDamage: boolean = false;
 
     constructor(point: Point, target: Point | null = null) {
         super(point, 10, 'pink');
@@ -28,8 +29,19 @@ export class Enemy extends Creature {
             if (object instanceof Bullet) {
                 this.takeDamage(object);
                 object.isAlive = false;
+                this.target = object.initiator.point;
+                this.isTakeDamage = true;
             }
         });
+
+        setInterval(() => {
+            if (this.isAlive && !this.target) {
+                this.moveToPoint({
+                    x: Math.random() * 500,
+                    y: Math.random() * 500
+                });
+            }
+        }, 1000);
     }
 
     update() {
@@ -37,13 +49,6 @@ export class Enemy extends Creature {
         if (this.isAlive) {
             if (this.target) {
                 this.moveToPoint(this.target);
-            } else {
-                for (let i = 0; i < Math.round(Math.random() * 30); i++) {
-                    this.moveToPoint({
-                        x: Math.random() * 500,
-                        y: Math.random() * 500
-                    });
-                }
             }
 
             this.point.x += this.xVelocity;
@@ -77,7 +82,7 @@ export class Enemy extends Creature {
 
     draw() {
         super.draw();
-        if (this.isHover) {
+        if (this.isHover || this.isTakeDamage) {
             DrawContext.draw((context) => {
                 context.font = '12px';
                 context.fillStyle = 'gray';

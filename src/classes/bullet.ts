@@ -9,8 +9,9 @@ export class Bullet extends GameObject implements IDamages{
     damage: number;
     xVelocity: number;
     yVelocity: number;
+    initiator: GameObject;
 
-    constructor(point: Point, angle: number, size: number) {
+    constructor(point: Point, angle: number, size: number, initiator: GameObject) {
         super({
             x: point.x - size / 2,
             y: point.y - size / 2
@@ -22,6 +23,7 @@ export class Bullet extends GameObject implements IDamages{
         this.damage = 10;
         this.xVelocity = this.speed * Math.cos(this.angle);
         this.yVelocity = this.speed * Math.sin(this.angle);
+        this.initiator = initiator;
     }
 
     update() {

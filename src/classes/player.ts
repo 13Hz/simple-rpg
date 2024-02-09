@@ -92,7 +92,7 @@ export class Player extends Creature {
     }
 
     shoot(rad: number, diff: number) {
-        const bullet = new IceBall(this.getCenter(), rad, diff * 5);
+        const bullet = new IceBall(this.getCenter(), rad, diff * 5, this);
         bullet.damage += this.baseDamage * this.lvl;
         bullet.damage *= this.power;
         bullet.manaCost *= this.power;
