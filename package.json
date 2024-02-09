@@ -6,6 +6,7 @@
   "author": "13Hz <async13hhz@gmail.com>",
   "scripts": {
     "dev": "parcel index.html --open",
+    "lint": "eslint --ext .ts .",
     "build": "parcel build index.html"
   },
   "devDependencies": {
