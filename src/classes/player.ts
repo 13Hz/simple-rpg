@@ -17,7 +17,7 @@ export class Player extends Creature implements IControlable, IUpdatable {
     baseDamage: number = 5;
 
     constructor(point: Point) {
-        super(point, 'white');
+        super(point, 10, 'white');
     }
 
     keyDown(e: KeyboardEvent): void {
@@ -156,7 +156,7 @@ export class Player extends Creature implements IControlable, IUpdatable {
     }
 
     shoot(rad: number, diff: number) {
-        const bullet = new IceBall(this.getCenter(), rad, diff);
+        const bullet = new IceBall(this.getCenter(), rad, diff * 5);
         bullet.damage += this.baseDamage * this.lvl;
         bullet.damage *= this.power;
         bullet.manaCost *= this.power;

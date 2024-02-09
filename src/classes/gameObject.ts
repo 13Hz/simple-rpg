@@ -4,13 +4,15 @@ import {Point} from "../types/point";
 export class GameObject {
     public point: Point;
     public isAlive: boolean = true;
-    public width: number = 10;
-    public height: number = 10;
+    public width: number;
+    public height: number;
     public color: string;
 
-    constructor(point: Point, color: string = 'red') {
+    constructor(point: Point, size: number = 10, color: string = 'red') {
         this.point = point;
         this.color = color;
+        this.width = size;
+        this.height = size;
     }
 
     public getCenter(): Point {
@@ -22,8 +24,10 @@ export class GameObject {
 
     checkInRoom() {
         if (this.isAlive) {
-            if ((this.point.x > DrawContext.getCanvas().width || this.point.x < 0) || (this.point.y > DrawContext.getCanvas().height || this.point.y < 0))
+            if ((this.point.x > DrawContext.getCanvas().width || this.point.x < 0)
+                || (this.point.y > DrawContext.getCanvas().height || this.point.y < 0)) {
                 this.isAlive = false;
+            }
         }
     }
 
