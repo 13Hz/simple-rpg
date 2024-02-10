@@ -5,16 +5,17 @@ import {Ui} from "./ui";
 import {GameManager} from "../managers/gameManager";
 
 export class Player extends Creature {
-    public w: boolean = false;
-    public a: boolean = false;
-    public s: boolean = false;
-    public d: boolean = false;
+    w: boolean = false;
+    a: boolean = false;
+    s: boolean = false;
+    d: boolean = false;
 
-    public holding: boolean = false;
-    public power: number = 1;
-    public minPower: number = 1;
-    public maxPower: number = 1;
-    public baseDamage: number = 5;
+    holding: boolean = false;
+    power: number = 1;
+    minPower: number = 1;
+    maxPower: number = 1;
+    baseDamage: number = 5;
+
 
     constructor(point: Point) {
         super(point, 10, 'white');

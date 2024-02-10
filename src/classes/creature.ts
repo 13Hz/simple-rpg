@@ -1,23 +1,31 @@
 import {GameObject} from "./gameObject";
 import {TypedEvent} from "./typedEvent";
 import {Bullet} from "./bullet";
+import {DrawContext} from "./drawContext";
 
 export class Creature extends GameObject {
-    public health: number = 100;
-    public maxHealth: number = 100;
-    public mana: number = 100;
-    public maxMana: number = 100;
-    public healthRegenerationRate: number = 0.01;
-    public manaRegenerationRate: number = 0.5;
-    public exp: number = 0;
-    public maxExp: number = 100;
-    public lvl: number = 1;
+    health: number = 100;
+    maxHealth: number = 100;
+    mana: number = 100;
+    maxMana: number = 100;
+    healthRegenerationRate: number = 0.01;
+    manaRegenerationRate: number = 0.5;
+    exp: number = 0;
+    maxExp: number = 100;
+    lvl: number = 1;
+    criticalChance: number = 5;
+    criticalDamageMultiply: number = 3;
 
-    protected isRunning: boolean = false;
-    protected xVelocity: number = 0;
-    protected yVelocity: number = 0;
-    protected maxVelocity: number = 1;
-    protected speed: number = 0.005;
+    isRunning: boolean = false;
+    xVelocity: number = 0;
+    yVelocity: number = 0;
+    maxVelocity: number = 1;
+    speed: number = 0.005;
+
+    showDamage: boolean = false;
+    damageValue: number = 0;
+    damageFramesCount: number = 0;
+    isCritical: boolean = false;
 
     onTakeDamage: TypedEvent<Creature> = new TypedEvent<Creature>();
 
@@ -32,24 +40,40 @@ export class Creature extends GameObject {
             this.mana = this.maxMana;
     }
 
-    takeDamage(by: Bullet): boolean {
+    draw() {
+        super.draw();
+        if (this.showDamage) {
+            DrawContext.draw((context) => {
+                context.fillStyle = this.isCritical ? 'red' : 'white';
+                context.fillText(`-${this.damageValue}`, this.point.x + this.width + 15, this.point.y - 10);
+            });
+
+            this.damageFramesCount++;
+        }
+
+        if(this.showDamage && this.damageFramesCount >= 500) {
+            this.damageFramesCount = 0;
+            this.showDamage = false;
+            this.isCritical = false;
+        }
+    }
+
+    takeDamage(by: Bullet, isCritical: boolean = false): boolean {
         if (this.isAlive && by.isAlive) {
-            // if (checkCollision(this, bullet) && !bullet.enemy) {
-            //     this.showDamage = true;
-            //     this.takeCritical = bullet.critical;
-            //     this.showValue = bullet.damage;
-            //     if (!this.onAttack)
-            //         this.onAttack = true;
             this.health -= by.damage;
             this.onTakeDamage.emit(this);
-            // by.isAlive = false;
+
+            this.showDamage = true;
+            this.isCritical = isCritical;
+            this.damageValue = by.damage;
+            this.damageFramesCount = 0;
+
             if (this.health <= 0) {
                 this.health = 0;
                 this.isAlive = false;
-                // console.log(getLogString(this.name + " убит"));
+
                 return true;
             }
-            // }
         }
 
         return false;

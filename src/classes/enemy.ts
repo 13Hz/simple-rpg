@@ -4,6 +4,7 @@ import {DrawContext} from "./drawContext";
 import {Ui} from "./ui";
 import {GameObject} from "./gameObject";
 import {Bullet} from "./bullet";
+import {rnd} from "../utils/functions";
 
 export class Enemy extends Creature {
     spawnPoint: Point
@@ -27,7 +28,12 @@ export class Enemy extends Creature {
 
         this.onCollision.on((object: GameObject) => {
             if (object instanceof Bullet) {
-                this.takeDamage(object);
+                let isCritical = false;
+                if (object.initiator instanceof Creature) {
+                    isCritical = rnd(0, 100) < object.initiator.criticalChance;
+                    object.damage *= isCritical ? object.initiator.criticalDamageMultiply : 1;
+                }
+                this.takeDamage(object, isCritical);
                 object.isAlive = false;
                 this.target = object.initiator.point;
                 this.isTakeDamage = true;

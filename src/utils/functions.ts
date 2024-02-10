@@ -19,3 +19,7 @@ export function checkCollision(object1: GameObject, object2: GameObject): boolea
 
     return (object1.point.x + w1 >= object2.point.x - w2 && object1.point.x - w1 <= object2.point.x + w2) && (object1.point.y + h1 >= object2.point.y - h2 && object1.point.y - h1 <= object2.point.y + h2);
 }
+
+export function rnd(min: number, max: number): number {
+    return Math.floor(Math.random() * (max - min) + min);
+}
