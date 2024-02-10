@@ -92,10 +92,10 @@ export class Enemy extends Creature {
             DrawContext.draw((context) => {
                 context.font = '12px';
                 context.fillStyle = 'gray';
-                context.fillText(this.name, this.getCenter().x - context.measureText(this.name).width / 2, this.getCenter().y - 25);
+                context.fillText(this.name, this.getCenter().x - context.measureText(this.name).width / 2, this.point.y - 25);
                 const levelText = `${this.lvl} lvl`;
-                context.fillText(levelText, this.getCenter().x - context.measureText(levelText).width / 2, this.getCenter().y - 15);
-                Ui.drawBar(this.getCenter().x - 20, this.point.y - 35, 40, 3, this.health, 0, this.maxHealth, 'red', 0, false);
+                context.fillText(levelText, this.getCenter().x - context.measureText(levelText).width / 2, this.point.y - 15);
+                Ui.drawBar(this.getCenter().x - 20, this.point.y - 40, 40, 3, this.health, 0, this.maxHealth, 'red', 0, false);
             });
         }
     }

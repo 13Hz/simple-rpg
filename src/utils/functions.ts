@@ -12,13 +12,16 @@ export function map(
 }
 
 export function checkCollision(object1: GameObject, object2: GameObject): boolean {
-    const w1 = object1.width / 2;
-    const h1 = object1.height / 2;
-    const w2 = object2.width / 2;
-    const h2 = object2.height / 2;
-
-    return (object1.point.x + w1 >= object2.point.x - w2 && object1.point.x - w1 <= object2.point.x + w2) && (object1.point.y + h1 >= object2.point.y - h2 && object1.point.y - h1 <= object2.point.y + h2);
+    return (
+        object1.point.x < object2.point.x + object2.width &&
+        object1.point.x + object1.width > object2.point.x &&
+        object1.point.y < object2.point.y + object2.height &&
+        object1.point.y + object1.height > object2.point.y
+    );
 }
+
+
+
 
 export function rnd(min: number, max: number): number {
     return Math.floor(Math.random() * (max - min) + min);
