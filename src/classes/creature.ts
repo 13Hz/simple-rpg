@@ -71,9 +71,9 @@ export class Creature extends GameObject {
             if (this.health <= 0) {
                 this.health = 0;
                 this.isAlive = false;
-
-                return true;
             }
+
+            return true;
         }
 
         return false;
