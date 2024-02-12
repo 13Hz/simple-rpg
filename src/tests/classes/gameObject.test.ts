@@ -2,7 +2,6 @@
  * @jest-environment jsdom
  */
 
-import {GameManager} from "../../managers/gameManager";
 import {GameObject} from "../../classes/gameObject";
 import {Point} from "../../types/point";
 
