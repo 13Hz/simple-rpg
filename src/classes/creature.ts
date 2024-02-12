@@ -2,6 +2,7 @@ import {GameObject} from "./gameObject";
 import {TypedEvent} from "./typedEvent";
 import {Bullet} from "./bullet";
 import {DrawContext} from "./drawContext";
+import {rnd} from "../utils/functions";
 
 export class Creature extends GameObject {
     health: number = 100;
@@ -58,9 +59,16 @@ export class Creature extends GameObject {
         }
     }
 
-    takeDamage(by: Bullet, isCritical: boolean = false): boolean {
+    takeDamage(by: Bullet): boolean {
         if (this.isAlive && by.isAlive) {
-            this.health -= by.damage;
+            let isCritical = false;
+            let damage = by.damage;
+            if (by.initiator instanceof Creature) {
+                isCritical = rnd(0, 100) < by.initiator.criticalChance;
+                damage *= isCritical ? by.initiator.criticalDamageMultiply : 1;
+            }
+
+            this.health -= damage;
             this.onTakeDamage.emit(this);
 
             this.showDamage = true;

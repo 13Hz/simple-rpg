@@ -28,12 +28,7 @@ export class Enemy extends Creature {
 
         this.onCollision.on((object: GameObject) => {
             if (object instanceof Bullet) {
-                let isCritical = false;
-                if (object.initiator instanceof Creature) {
-                    isCritical = rnd(0, 100) < object.initiator.criticalChance;
-                    object.damage *= isCritical ? object.initiator.criticalDamageMultiply : 1;
-                }
-                this.takeDamage(object, isCritical);
+                this.takeDamage(object);
                 object.isAlive = false;
                 this.target = object.initiator.point;
                 this.isTakeDamage = true;
