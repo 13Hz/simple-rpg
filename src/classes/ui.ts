@@ -3,11 +3,11 @@ import {map} from "../utils/functions";
 import {GameManager} from "../managers/gameManager";
 
 export class Ui {
-    private static context: CanvasRenderingContext2D = DrawContext.getContext();
-    private static canvas: HTMLCanvasElement = DrawContext.getCanvas();
+    private static context: CanvasRenderingContext2D | null = DrawContext.getContext();
+    private static canvas: HTMLCanvasElement | null = DrawContext.getCanvas();
 
     public static drawBar(x: number, y: number, width: number, height: number, value: number, minValue: number, maxValue: number, color: string, padding: number = 2, drawText: boolean = true, drawOnChange = false): void {
-        if (drawOnChange && value == minValue) {
+        if (drawOnChange && value == minValue || !this.context) {
             return;
         }
 
@@ -34,11 +34,13 @@ export class Ui {
     }
 
     private static drawExpBar(): void {
-        this.drawBar(10, this.canvas.height - 10, this.canvas.width - 20, 5, GameManager.player.exp, 0, GameManager.player.maxExp, 'yellow', 0, false);
-        this.context.font = '12px';
-        this.context.fillStyle = 'white';
-        this.context.fillText('LVL: ' + GameManager.player.lvl, 10, this.canvas.height - 15);
-        this.context.fillText((GameManager.player.exp * 100 / GameManager.player.maxExp).toFixed(2) + '%', this.canvas.width - 45, this.canvas.height - 15);
+        if (this.context && this.canvas) {
+            this.drawBar(10, this.canvas.height - 10, this.canvas.width - 20, 5, GameManager.player.exp, 0, GameManager.player.maxExp, 'yellow', 0, false);
+            this.context.font = '12px';
+            this.context.fillStyle = 'white';
+            this.context.fillText('LVL: ' + GameManager.player.lvl, 10, this.canvas.height - 15);
+            this.context.fillText((GameManager.player.exp * 100 / GameManager.player.maxExp).toFixed(2) + '%', this.canvas.width - 45, this.canvas.height - 15);
+        }
     }
 
     public static draw(): void {

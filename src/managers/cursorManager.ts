@@ -12,19 +12,21 @@ export class CursorManager {
 
     constructor() {
         const canvas = DrawContext.getCanvas();
-        canvas.onmousemove = (e) => {
-            this.point.x = e.x;
-            this.point.y = e.y;
-            this.onMouseMove.emit(this);
-        };
-        canvas.onclick = () => {
-            this.onClick.emit(this);
-        };
-        canvas.onmousedown = () => {
-            this.onMouseDown.emit(this);
-        };
-        canvas.onmouseup = () => {
-            this.onMouseUp.emit(this);
-        };
+        if (canvas) {
+            canvas.onmousemove = (e) => {
+                this.point.x = e.x;
+                this.point.y = e.y;
+                this.onMouseMove.emit(this);
+            };
+            canvas.onclick = () => {
+                this.onClick.emit(this);
+            };
+            canvas.onmousedown = () => {
+                this.onMouseDown.emit(this);
+            };
+            canvas.onmouseup = () => {
+                this.onMouseUp.emit(this);
+            };
+        }
     }
 }

@@ -29,9 +29,10 @@ export class GameObject {
     }
 
     checkInRoom() {
-        if (this.isAlive) {
-            if ((this.point.x > DrawContext.getCanvas().width || this.point.x < 0)
-                || (this.point.y > DrawContext.getCanvas().height || this.point.y < 0)) {
+        const canvas = DrawContext.getCanvas();
+        if (this.isAlive && canvas) {
+            if ((this.point.x > canvas.width || this.point.x < 0)
+                || (this.point.y > canvas.height || this.point.y < 0)) {
                 this.isAlive = false;
             }
         }
@@ -41,7 +42,7 @@ export class GameObject {
         const cursorPoint = GameManager.cursorManager.point;
         this.isHover = (cursorPoint.x >= this.point.x && cursorPoint.x <= this.point.x + this.width) && (cursorPoint.y >= this.point.y && cursorPoint.y <= this.point.y + this.height);
         GameManager.getAllGameObject().forEach((object) => {
-            if (object !== this && checkCollision(this, object)) {
+            if (object && object !== this && checkCollision(this, object)) {
                 this.onCollision.emit(object);
             }
         });

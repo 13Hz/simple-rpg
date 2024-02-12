@@ -38,10 +38,12 @@ function draw(): void {
 }
 
 function clear(): void {
-    DrawContext.draw((context) => {
-        context.fillStyle = '#000';
-        context.fillRect(0, 0, canvas.width, canvas.height);
-    });
+    if (canvas) {
+        DrawContext.draw((context) => {
+            context.fillStyle = '#000';
+            context.fillRect(0, 0, canvas.width, canvas.height);
+        });
+    }
 }
 
 let mStart: Date | null = null;

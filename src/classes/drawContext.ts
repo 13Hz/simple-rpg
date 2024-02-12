@@ -1,8 +1,8 @@
 export class DrawContext {
-    private static context: CanvasRenderingContext2D;
-    private static canvas: HTMLCanvasElement;
+    private static context: CanvasRenderingContext2D | null;
+    private static canvas: HTMLCanvasElement | null;
 
-    static getCanvas(): HTMLCanvasElement {
+    static getCanvas(): HTMLCanvasElement | null {
         const id: string = '#canvas';
         if (!this.canvas) {
             this.canvas = document.querySelector(id)!;
@@ -11,17 +11,20 @@ export class DrawContext {
         return this.canvas;
     }
 
-    static getContext(): CanvasRenderingContext2D {
+    static getContext(): CanvasRenderingContext2D | null {
         if (!this.context) {
-            this.context = this.getCanvas().getContext('2d')!;
+            this.context = this.getCanvas()?.getContext('2d')!;
         }
 
         return this.context;
     }
 
     static draw(callback: (context: CanvasRenderingContext2D) => void): void {
-        const prevFillStyle = this.getContext().fillStyle;
-        callback(this.context);
-        this.context.fillStyle = prevFillStyle;
+        const context = this.getContext();
+        if (context) {
+            const prevFillStyle = context.fillStyle;
+            callback(context);
+            context.fillStyle = prevFillStyle;
+        }
     }
 }
