@@ -31,11 +31,11 @@ export class Creature extends GameObject {
 
     regeneration() {
         if (this.health < this.maxHealth)
-            this.health += this.isRunning ? this.healthRegenerationRate * 2 : this.healthRegenerationRate;
+            this.health += this.isRunning ? this.healthRegenerationRate : this.healthRegenerationRate * 2;
         else
             this.health = this.maxHealth;
         if (this.mana < this.maxMana)
-            this.mana += this.isRunning ? this.manaRegenerationRate * 2 : this.manaRegenerationRate;
+            this.mana += this.isRunning ? this.manaRegenerationRate : this.manaRegenerationRate * 2;
         else
             this.mana = this.maxMana;
     }
