@@ -4,7 +4,6 @@ import {DrawContext} from "./drawContext";
 import {Ui} from "./ui";
 import {GameObject} from "./gameObject";
 import {Bullet} from "./bullet";
-import {rnd} from "../utils/functions";
 
 export class Enemy extends Creature {
     spawnPoint: Point
