@@ -1,19 +1,19 @@
 export class DrawContext {
-    private static context: CanvasRenderingContext2D | null;
+    private static context: CanvasRenderingContext2D | null | undefined;
     private static canvas: HTMLCanvasElement | null;
 
     static getCanvas(): HTMLCanvasElement | null {
         const id: string = '#canvas';
         if (!this.canvas) {
-            this.canvas = document.querySelector(id)!;
+            this.canvas = document.querySelector(id);
         }
 
         return this.canvas;
     }
 
-    static getContext(): CanvasRenderingContext2D | null {
+    static getContext(): CanvasRenderingContext2D | null | undefined {
         if (!this.context) {
-            this.context = this.getCanvas()?.getContext('2d')!;
+            this.context = this.getCanvas()?.getContext('2d');
         }
 
         return this.context;
