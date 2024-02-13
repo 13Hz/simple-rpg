@@ -6,10 +6,10 @@ import {GameObject} from "../classes/gameObject";
 export class GameManager {
     static player: Player;
     static cursorManager: CursorManager = new CursorManager();
-    static bulletsManager: GameObjectsManager = new GameObjectsManager();
+    static spellsManager: GameObjectsManager = new GameObjectsManager();
     static enemiesManager: GameObjectsManager = new GameObjectsManager();
 
     static getAllGameObject(): GameObject[] {
-        return [(this.player as GameObject), ...this.enemiesManager.getObjects(), ...this.bulletsManager.getObjects()];
+        return [(this.player as GameObject), ...this.enemiesManager.getObjects(), ...this.spellsManager.getObjects()];
     }
 }

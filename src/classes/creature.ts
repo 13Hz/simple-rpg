@@ -1,8 +1,8 @@
 import {GameObject} from "./gameObject";
 import {TypedEvent} from "./typedEvent";
-import {Bullet} from "./bullet";
 import {DrawContext} from "./drawContext";
 import {rnd} from "../utils/functions";
+import {DamageDealer} from "../types/damageDealer";
 
 export class Creature extends GameObject {
     protected _health: number = 100;
@@ -15,7 +15,7 @@ export class Creature extends GameObject {
     protected _maxExp: number = 100;
     private _lvl: number = 1;
     private _criticalChance: number = 5;
-    private _criticalDamageMultiply: number = 3;
+    private _criticalDamageMultiply: number = 2;
 
     private _xVelocity: number = 0;
     private _yVelocity: number = 0;
@@ -44,6 +44,10 @@ export class Creature extends GameObject {
 
     get mana() {
         return this._mana;
+    }
+
+    set mana(mana: number) {
+        this._mana = mana;
     }
 
     get maxMana() {
@@ -143,21 +147,20 @@ export class Creature extends GameObject {
         }
     }
 
-    takeDamage(by: Bullet): boolean {
+    takeDamage(by: DamageDealer): boolean {
         if (this.isAlive && by.isAlive) {
-            let isCritical = false;
+            by.onDealDamage.emit(this);
             let damage = by.damage;
             if (by.initiator instanceof Creature) {
-                isCritical = rnd(0, 100) < by.initiator.criticalChance;
-                damage *= isCritical ? by.initiator.criticalDamageMultiply : 1;
+                this._isCritical = rnd(0, 100) < by.initiator.criticalChance || true;
+                damage *= this._isCritical ? by.initiator.criticalDamageMultiply : 1;
             }
 
             this._health -= damage;
             this.onTakeDamage.emit(this);
 
             this._showDamage = true;
-            this._isCritical = isCritical;
-            this._damageValue = by.damage;
+            this._damageValue = damage;
             this._damageFramesCount = 0;
 
             if (this._health <= 0) {

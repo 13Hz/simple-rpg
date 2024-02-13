@@ -1,4 +1,5 @@
 import {GameObject} from "../classes/gameObject";
+import {DamageDealer} from "../types/damageDealer";
 
 export function map(
     value: number,
@@ -18,6 +19,10 @@ export function checkCollision(object1: GameObject, object2: GameObject): boolea
         object1.point.y <= object2.point.y + object2.height &&
         object1.point.y + object1.height >= object2.point.y
     );
+}
+
+export function isDamageDealer(obj: object): obj is DamageDealer {
+    return 'damage' in obj;
 }
 
 export function rnd(min: number, max: number): number {

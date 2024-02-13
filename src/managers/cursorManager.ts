@@ -1,9 +1,9 @@
-import {Point} from "../types/point";
+import {Point} from "../classes/point";
 import {DrawContext} from "../classes/drawContext";
 import {TypedEvent} from "../classes/typedEvent";
 
 export class CursorManager {
-    private _point: Point = {x: 0, y: 0};
+    private _point: Point = Point.empty;
 
     public readonly onMouseMove: TypedEvent<CursorManager> = new TypedEvent<CursorManager>();
     public readonly onClick: TypedEvent<CursorManager> = new TypedEvent<CursorManager>();

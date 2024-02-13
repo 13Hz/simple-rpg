@@ -1,5 +1,5 @@
 import {DrawContext} from "./drawContext";
-import {Point} from "../types/point";
+import {Point} from "./point";
 import {GameManager} from "../managers/gameManager";
 import {TypedEvent} from "./typedEvent";
 import {checkCollision} from "../utils/functions";
@@ -53,11 +53,12 @@ export class GameObject {
         this._color = color;
     }
 
+    setCenter(point: Point) {
+        this._point = new Point(point.x - this._width / 2, point.y - this._height / 2);
+    }
+
     getCenter(): Point {
-        return {
-            x: this._point.x + this._width / 2,
-            y: this._point.y + this._height / 2
-        };
+        return new Point(this._point.x + this._width / 2, this._point.y + this._height / 2);
     }
 
     checkInRoom() {

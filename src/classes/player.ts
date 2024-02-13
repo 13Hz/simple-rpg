@@ -1,8 +1,9 @@
 import {Creature} from './creature';
-import {IceBall} from "./iceBall";
-import {Point} from "../types/point";
+import {Point} from "./point";
 import {Ui} from "./ui";
 import {GameManager} from "../managers/gameManager";
+import {FireBall} from "./spells/fireBall";
+import {IceBall} from "./spells/iceBall";
 
 export class Player extends Creature {
     private _w: boolean = false;
@@ -14,6 +15,8 @@ export class Player extends Creature {
     private _power: number = 1;
     private _minPower: number = 1;
     private _maxPower: number = 1;
+
+    private _isDefaultSpell: boolean = true;
 
     constructor(point: Point) {
         super(point, 10, 'white');
@@ -40,17 +43,25 @@ export class Player extends Creature {
     }
 
     keyDown(e: KeyboardEvent): void {
-        if (e.code === 'KeyD') {
+        if (e.code == 'KeyD') {
             this._d = true;
         }
-        if (e.code === 'KeyA') {
+        if (e.code == 'KeyA') {
             this._a = true;
         }
-        if (e.code === 'KeyW') {
+        if (e.code == 'KeyW') {
             this._w = true;
         }
-        if (e.code === 'KeyS') {
+        if (e.code == 'KeyS') {
             this._s = true;
+        }
+
+        //TODO: Отрефакторить
+        if (e.code == 'Digit1') {
+            this._isDefaultSpell = true;
+        }
+        if (e.code == 'Digit2') {
+            this._isDefaultSpell = false;
         }
     }
 
@@ -103,14 +114,9 @@ export class Player extends Creature {
         }
     }
 
-    shoot(rad: number, diff: number) {
-        const bullet = new IceBall(this.getCenter(), rad, diff * 5, this, this._power * 10);
-        bullet.damage *= this._power;
-
-        if (this.isAlive && this._mana >= bullet.manaCost) {
-            this._mana -= bullet.manaCost;
-            GameManager.bulletsManager.add(bullet);
-        }
+    cast() {
+        const spell = this._isDefaultSpell ? new IceBall(this, this.power * 5) : new FireBall(this, this.power * 5);
+        spell.cast(GameManager.cursorManager.point);
     }
 
     draw() {
