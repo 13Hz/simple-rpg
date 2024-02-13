@@ -5,101 +5,110 @@ import {Ui} from "./ui";
 import {GameManager} from "../managers/gameManager";
 
 export class Player extends Creature {
-    w: boolean = false;
-    a: boolean = false;
-    s: boolean = false;
-    d: boolean = false;
+    private _w: boolean = false;
+    private _a: boolean = false;
+    private _s: boolean = false;
+    private _d: boolean = false;
 
-    holding: boolean = false;
-    power: number = 1;
-    minPower: number = 1;
-    maxPower: number = 1;
-    baseDamage: number = 5;
-
+    private _holding: boolean = false;
+    private _power: number = 1;
+    private _minPower: number = 1;
+    private _maxPower: number = 1;
 
     constructor(point: Point) {
         super(point, 10, 'white');
     }
 
+    get power() {
+        return this._power;
+    }
+
+    set power(power: number) {
+        this._power = power;
+    }
+
+    get minPower() {
+        return this._minPower;
+    }
+
+    set holding(holding: boolean) {
+        this._holding = holding;
+    }
+
+    get holding() {
+        return this._holding;
+    }
+
     keyDown(e: KeyboardEvent): void {
         if (e.code === 'KeyD') {
-            this.d = true;
+            this._d = true;
         }
         if (e.code === 'KeyA') {
-            this.a = true;
+            this._a = true;
         }
         if (e.code === 'KeyW') {
-            this.w = true;
+            this._w = true;
         }
         if (e.code === 'KeyS') {
-            this.s = true;
+            this._s = true;
         }
     }
 
     keyUp(e: KeyboardEvent): void {
         if (e.code == 'KeyD') {
-            this.d = false;
+            this._d = false;
         }
         if (e.code == 'KeyA') {
-            this.a = false;
+            this._a = false;
         }
         if (e.code == 'KeyW') {
-            this.w = false;
+            this._w = false;
         }
         if (e.code == 'KeyS') {
-            this.s = false;
+            this._s = false;
         }
     }
 
     update() {
         super.update();
         if (this.isAlive) {
-            if (this.d && this.xVelocity < this.maxVelocity)
+            if (this._d && this.xVelocity < this.maxVelocity)
                 this.xVelocity += this.speed;
-            else if (!this.d && this.xVelocity > 0)
+            else if (!this._d && this.xVelocity > 0)
                 this.xVelocity -= this.speed;
 
-            if (this.a && this.xVelocity > this.maxVelocity * -1)
+            if (this._a && this.xVelocity > this.maxVelocity * -1)
                 this.xVelocity -= this.speed;
-            else if (!this.a && this.xVelocity < 0)
+            else if (!this._a && this.xVelocity < 0)
                 this.xVelocity += this.speed;
 
-            if (this.s && this.yVelocity < this.maxVelocity)
+            if (this._s && this.yVelocity < this.maxVelocity)
                 this.yVelocity += this.speed;
-            else if (!this.s && this.yVelocity > 0)
+            else if (!this._s && this.yVelocity > 0)
                 this.yVelocity -= this.speed;
 
-            if (this.w && this.yVelocity > this.maxVelocity * -1)
+            if (this._w && this.yVelocity > this.maxVelocity * -1)
                 this.yVelocity -= this.speed;
-            else if (!this.w && this.yVelocity < 0)
+            else if (!this._w && this.yVelocity < 0)
                 this.yVelocity += this.speed;
 
-            if (!this.a && !this.w && !this.s && !this.d && (this.xVelocity < this.speed && this.xVelocity > -this.speed))
+            if (!this._a && !this._w && !this._s && !this._d && (this.xVelocity < this.speed && this.xVelocity > -this.speed))
                 this.xVelocity = 0;
 
-            if (!this.a && !this.w && !this.s && !this.d && (this.yVelocity < this.speed && this.yVelocity > -this.speed))
+            if (!this._a && !this._w && !this._s && !this._d && (this.yVelocity < this.speed && this.yVelocity > -this.speed))
                 this.yVelocity = 0;
 
             this.point.x += this.xVelocity;
             this.point.y += this.yVelocity;
-
-            if (this.health <= 0) {
-                this.health = 0;
-                this.isAlive = false;
-            }
-
-            this.isRunning = !(this.xVelocity == 0 && this.yVelocity == 0);
         }
     }
 
     shoot(rad: number, diff: number) {
-        const bullet = new IceBall(this.getCenter(), rad, diff * 5, this);
-        bullet.damage += this.baseDamage * this.lvl;
-        bullet.damage *= this.power;
-        bullet.manaCost *= this.power;
+        const bullet = new IceBall(this.getCenter(), rad, diff * 5, this, this._power * 10);
+        bullet.damage *= this._power;
 
-        if (this.isAlive && this.mana >= bullet.manaCost) {
-            this.mana -= bullet.manaCost;
+        if (this.isAlive && this._mana >= bullet.manaCost) {
+            this._mana -= bullet.manaCost;
             GameManager.bulletsManager.add(bullet);
         }
     }

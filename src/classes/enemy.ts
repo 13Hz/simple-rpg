@@ -6,36 +6,36 @@ import {GameObject} from "./gameObject";
 import {Bullet} from "./bullet";
 
 export class Enemy extends Creature {
-    spawnPoint: Point
-    target: Point | null;
-    name: string = 'Dummy';
-    isTakeDamage: boolean = false;
+    private _spawnPoint: Point;
+    private _target: Point | null;
+    private _name: string = 'Dummy';
+    private _isTakeDamage: boolean = false;
+    protected _health: number = this.lvl * 100;
+    protected _maxHealth: number = this.lvl * 100;
+    protected _healthRegenerationRate: number = 0.01;
+    protected _speed: number = 0.003;
+    protected _exp: number = 10;
 
     constructor(point: Point, target: Point | null = null) {
         super(point, 10, 'pink');
-        this.health = this.lvl * 100;
-        this.maxHealth = this.lvl * 100;
-        this.healthRegenerationRate = 0.01;
-        this.speed = 0.003;
-        this.exp = 10;
-        this.spawnPoint = point;
-        this.target = target;
-        
+        this._spawnPoint = point;
+        this._target = target;
+
         this.onTakeDamage.on((initiator: Creature) => {
-            this.target = initiator.point;
+            this._target = initiator.point;
         });
 
         this.onCollision.on((object: GameObject) => {
             if (object instanceof Bullet) {
                 this.takeDamage(object);
                 object.isAlive = false;
-                this.target = object.initiator.point;
-                this.isTakeDamage = true;
+                this._target = object.initiator.point;
+                this._isTakeDamage = true;
             }
         });
 
         setInterval(() => {
-            if (this.isAlive && !this.target) {
+            if (this.isAlive && !this._target) {
                 this.moveToPoint({
                     x: Math.random() * 500,
                     y: Math.random() * 500
@@ -47,14 +47,12 @@ export class Enemy extends Creature {
     update() {
         super.update();
         if (this.isAlive) {
-            if (this.target) {
-                this.moveToPoint(this.target);
+            if (this._target) {
+                this.moveToPoint(this._target);
             }
 
             this.point.x += this.xVelocity;
             this.point.y += this.yVelocity;
-
-            this.isRunning = !(this.xVelocity == 0 && this.yVelocity == 0);
         }
     }
 
@@ -82,14 +80,14 @@ export class Enemy extends Creature {
 
     draw() {
         super.draw();
-        if (this.isHover || this.isTakeDamage) {
+        if (this.isHover || this._isTakeDamage) {
             DrawContext.draw((context) => {
                 context.font = '12px';
                 context.fillStyle = 'gray';
-                context.fillText(this.name, this.getCenter().x - context.measureText(this.name).width / 2, this.point.y - 25);
+                context.fillText(this._name, this.getCenter().x - context.measureText(this._name).width / 2, this.point.y - 25);
                 const levelText = `${this.lvl} lvl`;
                 context.fillText(levelText, this.getCenter().x - context.measureText(levelText).width / 2, this.point.y - 15);
-                Ui.drawBar(this.getCenter().x - 20, this.point.y - 40, 40, 3, this.health, 0, this.maxHealth, 'red', 0, false);
+                Ui.drawBar(this.getCenter().x - 20, this.point.y - 40, 40, 3, this.health, 0, this._maxHealth, 'red', 0, false);
             });
         }
     }

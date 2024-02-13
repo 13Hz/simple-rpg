@@ -3,7 +3,7 @@ import {map} from "../utils/functions";
 import {GameManager} from "../managers/gameManager";
 
 export class Ui {
-    private static context: CanvasRenderingContext2D | null = DrawContext.getContext();
+    private static context: CanvasRenderingContext2D | null | undefined = DrawContext.getContext();
     private static canvas: HTMLCanvasElement | null = DrawContext.getCanvas();
 
     public static drawBar(x: number, y: number, width: number, height: number, value: number, minValue: number, maxValue: number, color: string, padding: number = 2, drawText: boolean = true, drawOnChange = false): void {

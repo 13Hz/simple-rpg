@@ -3,27 +3,31 @@ import {Point} from "../types/point";
 import {IDamages} from "../types/iDamages";
 
 export class Bullet extends GameObject implements IDamages{
-    angle: number;
-    speed: number;
-    manaCost: number;
-    damage: number;
-    xVelocity: number;
-    yVelocity: number;
-    initiator: GameObject;
+    damage: number = 10;
+    protected _angle: number;
+    protected _speed: number = 1;
+    protected _manaCost: number = 10;
+    private readonly _xVelocity: number;
+    private readonly _yVelocity: number;
+    private readonly _initiator: GameObject;
 
-    constructor(point: Point, angle: number, size: number, initiator: GameObject) {
+    constructor(point: Point, angle: number, size: number, initiator: GameObject, color: string = 'blue') {
         super({
             x: point.x - size / 2,
             y: point.y - size / 2
-        }, size);
-        this.angle = angle;
-        this.speed = 1;
-        this.manaCost = 10;
-        this.color = "red";
-        this.damage = 10;
-        this.xVelocity = this.speed * Math.cos(this.angle);
-        this.yVelocity = this.speed * Math.sin(this.angle);
-        this.initiator = initiator;
+        }, size, color);
+        this._angle = angle;
+        this._xVelocity = this._speed * Math.cos(this._angle);
+        this._yVelocity = this._speed * Math.sin(this._angle);
+        this._initiator = initiator;
+    }
+
+    get initiator() {
+        return this._initiator;
+    }
+
+    get manaCost() {
+        return this._manaCost;
     }
 
     update() {
@@ -31,8 +35,8 @@ export class Bullet extends GameObject implements IDamages{
         this.checkInRoom();
 
         if (this.isAlive) {
-            this.point.x += this.xVelocity;
-            this.point.y += this.yVelocity;
+            this.point.x += this._xVelocity;
+            this.point.y += this._yVelocity;
         }
     }
 }

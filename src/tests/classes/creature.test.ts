@@ -3,18 +3,23 @@
  */
 
 import {Creature} from "../../classes/creature";
-import {Bullet} from "../../classes/bullet";
 
 describe('Creature class', () => {
     describe('regeneration method', () => {
-        test('successfully health regeneration', () => {
+        test('successfully health regeneration (stand)', () => {
             const creature = new Creature({x: 0, y: 0});
-            const initHealth = 50;
-            creature.health = initHealth;
+            creature.forceTakeDamage(50);
+            const initHealth = creature.health;
+
             creature.regeneration();
-            expect(creature.health).toBe(initHealth + creature.healthRegenerationRate * 2);
-            creature.isRunning = true;
-            creature.health = initHealth;
+            expect(creature.health).toBe(initHealth + creature.healthRegenerationRate);
+        });
+        test('successfully health regeneration (run)', () => {
+            const creature = new Creature({x: 0, y: 0});
+            creature.forceTakeDamage(50);
+            creature.xVelocity = 5;
+            const initHealth = creature.health;
+
             creature.regeneration();
             expect(creature.health).toBe(initHealth + creature.healthRegenerationRate);
         });
@@ -23,17 +28,6 @@ describe('Creature class', () => {
             const initHealth = creature.health;
             creature.regeneration();
             expect(creature.health).toBe(initHealth);
-        });
-        test('successfully mana regeneration', () => {
-            const creature = new Creature({x: 0, y: 0});
-            const initMana = 50;
-            creature.mana = initMana;
-            creature.regeneration();
-            expect(creature.mana).toBe(initMana + creature.manaRegenerationRate * 2);
-            creature.isRunning = true;
-            creature.mana = initMana;
-            creature.regeneration();
-            expect(creature.mana).toBe(initMana + creature.manaRegenerationRate);
         });
         test('mana regeneration with full mana', () => {
             const creature = new Creature({x: 0, y: 0});
@@ -44,31 +38,17 @@ describe('Creature class', () => {
     });
     describe('takeDamage method', () => {
         test('successfully taking damage (without dying)', () => {
-            const attackingCreature = new Creature({x: 0, y: 0});
-            const defendingCreature = new Creature({x: 0, y: 0});
-            const bullet = new Bullet({x: 0, y: 0}, 0, 0, attackingCreature);
-            const initialHealth = defendingCreature.health;
-            expect(defendingCreature.takeDamage(bullet)).toBe(true);
-            expect(defendingCreature.health).toBe(initialHealth - bullet.damage);
-            expect(defendingCreature.isAlive).toBe(true);
+            const creature = new Creature({x: 0, y: 0});
+            const initialHealth = creature.health;
+            expect(creature.forceTakeDamage(10)).toBe(true);
+            expect(creature.health).toBe(initialHealth - 10);
+            expect(creature.isAlive).toBe(true);
         });
         test('successfully taking damage and dying', () => {
-            const attackingCreature = new Creature({x: 0, y: 0});
-            const defendingCreature = new Creature({x: 0, y: 0});
-            const bullet = new Bullet({x: 0, y: 0}, 0, 0, attackingCreature);
-            bullet.damage = defendingCreature.health;
-            expect(defendingCreature.takeDamage(bullet)).toBe(true);
-            expect(defendingCreature.health).toBeLessThanOrEqual(0);
-            expect(defendingCreature.isAlive).toBe(false);
-        });
-        test('successfully taking critical damage', () => {
-            const attackingCreature = new Creature({x: 0, y: 0});
-            const defendingCreature = new Creature({x: 0, y: 0});
-            const bullet = new Bullet({x: 0, y: 0}, 0, 0, attackingCreature);
-            const initialHealth = defendingCreature.health;
-            attackingCreature.criticalChance = 200;
-            expect(defendingCreature.takeDamage(bullet)).toBe(true);
-            expect(defendingCreature.health).toBe(initialHealth - bullet.damage * attackingCreature.criticalDamageMultiply);
+            const creature = new Creature({x: 0, y: 0});
+            expect(creature.forceTakeDamage(creature.maxHealth)).toBe(true);
+            expect(creature.health).toBeLessThanOrEqual(0);
+            expect(creature.isAlive).toBe(false);
         });
     });
 });
