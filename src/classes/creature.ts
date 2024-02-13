@@ -152,7 +152,7 @@ export class Creature extends GameObject {
             by.onDealDamage.emit(this);
             let damage = by.damage;
             if (by.initiator instanceof Creature) {
-                this._isCritical = rnd(0, 100) < by.initiator.criticalChance || true;
+                this._isCritical = rnd(0, 100) < by.initiator.criticalChance;
                 damage *= this._isCritical ? by.initiator.criticalDamageMultiply : 1;
             }
 
