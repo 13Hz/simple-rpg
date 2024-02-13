@@ -115,7 +115,7 @@ export class Player extends Creature {
     }
 
     cast() {
-        const spell = this._isDefaultSpell ? new IceBall(this, this.power * 5) : new FireBall(this, this.power * 5);
+        const spell = this._isDefaultSpell ? new IceBall(this, 5) : new FireBall(this, 5);
         spell.cast(GameManager.cursorManager.point);
     }
 

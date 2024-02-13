@@ -31,7 +31,7 @@ export class FireBall extends DirectedSpell implements DamageDealer {
             this._trace.push(this.getCenter());
         }
         if (this._trace.length > this._traceLength) {
-            this._trace = this._trace.slice(-3);
+            this._trace = this._trace.slice(-this._traceLength);
         }
         DrawContext.draw((context) => {
             context.fillStyle = 'red';
