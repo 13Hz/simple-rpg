@@ -43,7 +43,7 @@ export class GameManager {
             document.addEventListener('keyup', (e) => this.player.keyUp(e));
 
             this.cursorManager.onClick.on(() => {
-                GameManager.player.cast();
+                this.player.cast();
             });
 
             setInterval(this.update, 1);
