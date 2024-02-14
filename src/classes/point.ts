@@ -1,4 +1,5 @@
 import {rnd} from "../utils/functions";
+import {GameManager} from "../managers/gameManager";
 
 export class Point {
     x: number;
@@ -14,6 +15,6 @@ export class Point {
     }
 
     static get random() {
-        return new Point(rnd(0, 500), rnd(0, 500));
+        return new Point(rnd(0, GameManager.width), rnd(0, GameManager.height));
     }
 }

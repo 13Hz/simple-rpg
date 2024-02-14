@@ -1,10 +1,10 @@
-import {DrawContext} from "./drawContext";
+import {DrawManager} from "../managers/drawManager";
 import {map} from "../utils/functions";
 import {GameManager} from "../managers/gameManager";
 
 export class Ui {
-    private static context: CanvasRenderingContext2D | null | undefined = DrawContext.getContext();
-    private static canvas: HTMLCanvasElement | null = DrawContext.getCanvas();
+    private static context: CanvasRenderingContext2D | null | undefined = DrawManager.getContext();
+    private static canvas: HTMLCanvasElement | null = DrawManager.getCanvas();
 
     public static drawBar(x: number, y: number, width: number, height: number, value: number, minValue: number, maxValue: number, color: string, padding: number = 2, drawText: boolean = true, drawOnChange = false): void {
         if (drawOnChange && value == minValue || !this.context) {
@@ -44,7 +44,7 @@ export class Ui {
     }
 
     public static draw(): void {
-        DrawContext.draw(() => {
+        DrawManager.draw(() => {
             this.drawBar(5, 5, 100, 15, GameManager.player.health, 0, GameManager.player.maxHealth, 'red');
             this.drawBar(5, 25, 100, 15, GameManager.player.mana, 0, GameManager.player.maxMana, 'blue');
             this.drawBar(GameManager.player.point.x - 15, GameManager.player.point.y - 10, GameManager.player.width + 30, 5, GameManager.player.power, 1, 3, 'aqua', 0, false, true);

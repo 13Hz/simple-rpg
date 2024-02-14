@@ -1,4 +1,4 @@
-import {DrawContext} from "./drawContext";
+import {DrawManager} from "../managers/drawManager";
 import {Point} from "./point";
 import {GameManager} from "../managers/gameManager";
 import {TypedEvent} from "./typedEvent";
@@ -62,7 +62,7 @@ export class GameObject {
     }
 
     checkInRoom() {
-        const canvas = DrawContext.getCanvas();
+        const canvas = DrawManager.getCanvas();
         if (this._isAlive && canvas) {
             if ((this._point.x > canvas.width || this._point.x < 0)
                 || (this._point.y > canvas.height || this._point.y < 0)) {
@@ -82,7 +82,7 @@ export class GameObject {
     }
 
     draw() {
-        DrawContext.draw((context) => {
+        DrawManager.draw((context) => {
             context.fillStyle = this._color;
             context.fillRect(this._point.x, this._point.y, this._width, this._height);
         });

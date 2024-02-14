@@ -1,6 +1,6 @@
 import {GameObject} from "./gameObject";
 import {TypedEvent} from "./typedEvent";
-import {DrawContext} from "./drawContext";
+import {DrawManager} from "../managers/drawManager";
 import {rnd} from "../utils/functions";
 import {DamageDealer} from "../types/damageDealer";
 
@@ -132,7 +132,7 @@ export class Creature extends GameObject {
     draw() {
         super.draw();
         if (this._showDamage) {
-            DrawContext.draw((context) => {
+            DrawManager.draw((context) => {
                 context.fillStyle = this._isCritical ? 'red' : 'white';
                 context.fillText(`-${this._damageValue}`, this.point.x + this.width + 15, this.point.y - 10);
             });

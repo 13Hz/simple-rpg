@@ -1,4 +1,4 @@
-import {DrawContext} from "../drawContext";
+import {DrawManager} from "../../managers/drawManager";
 import {DamageDealer} from "../../types/damageDealer";
 import {GameObject} from "../gameObject";
 import {Point} from "../point";
@@ -33,7 +33,7 @@ export class FireBall extends DirectedSpell implements DamageDealer {
         if (this._trace.length > this._traceLength) {
             this._trace = this._trace.slice(-this._traceLength);
         }
-        DrawContext.draw((context) => {
+        DrawManager.draw((context) => {
             context.fillStyle = 'red';
             context.fillRect(this.point.x, this.point.y, this.width, this.height);
             this._trace.forEach((dot) => {

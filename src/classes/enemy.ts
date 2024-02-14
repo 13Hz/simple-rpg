@@ -1,6 +1,6 @@
 import {Creature} from "./creature";
 import {Point} from "./point";
-import {DrawContext} from "./drawContext";
+import {DrawManager} from "../managers/drawManager";
 import {Ui} from "./ui";
 import {GameObject} from "./gameObject";
 import {isDamageDealer} from "../utils/functions";
@@ -78,7 +78,7 @@ export class Enemy extends Creature {
     draw() {
         super.draw();
         if (this.isHover || this._isTakeDamage) {
-            DrawContext.draw((context) => {
+            DrawManager.draw((context) => {
                 context.font = '12px';
                 context.fillStyle = 'gray';
                 context.fillText(this._name, this.getCenter().x - context.measureText(this._name).width / 2, this.point.y - 25);

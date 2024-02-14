@@ -1,5 +1,5 @@
 import {DirectedSpell} from "./directedSpell";
-import {DrawContext} from "../drawContext";
+import {DrawManager} from "../../managers/drawManager";
 import {DamageDealer} from "../../types/damageDealer";
 import {GameObject} from "../gameObject";
 import {Point} from "../point";
@@ -26,7 +26,7 @@ export class IceBall extends DirectedSpell implements DamageDealer {
     }
 
     draw() {
-        DrawContext.draw((context) => {
+        DrawManager.draw((context) => {
             context.fillStyle = 'blue';
             context.fillRect(this.point.x, this.point.y, this.width, this.height);
             for (let i = 0; i < this._orbitCount; i++) {

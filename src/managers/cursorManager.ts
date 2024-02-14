@@ -1,5 +1,5 @@
 import {Point} from "../classes/point";
-import {DrawContext} from "../classes/drawContext";
+import {DrawManager} from "./drawManager";
 import {TypedEvent} from "../classes/typedEvent";
 
 export class CursorManager {
@@ -11,7 +11,7 @@ export class CursorManager {
     public readonly onMouseUp: TypedEvent<CursorManager> = new TypedEvent<CursorManager>();
 
     constructor() {
-        const canvas = DrawContext.getCanvas();
+        const canvas = DrawManager.getCanvas();
         if (canvas) {
             canvas.onmousemove = (e) => {
                 this._point.x = e.x;
