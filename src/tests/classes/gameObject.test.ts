@@ -3,7 +3,7 @@
  */
 
 import {GameObject} from "../../classes/gameObject";
-import { Point } from "../../classes/point";
+import {Point} from "../../classes/point";
 
 describe('GameObject class', () => {
     describe('update method', () => {
@@ -25,6 +25,12 @@ describe('GameObject class', () => {
             const object = new GameObject({x: 100, y: 150}, 20);
             const expectedCenter: Point = new Point(110, 160);
             expect(object.getCenter()).toStrictEqual(expectedCenter);
+        });
+        test('set center function', () => {
+            const object = new GameObject({x: 100, y: 150});
+            object.setCenter(Point.empty);
+            expect(object.getCenter()).toStrictEqual(Point.empty);
+            expect(object.point).toStrictEqual(new Point(-(object.width / 2), -(object.height / 2)));
         });
     });
 });
