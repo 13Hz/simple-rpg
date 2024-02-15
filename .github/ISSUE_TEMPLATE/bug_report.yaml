@@ -1,0 +1,66 @@
+name: Отчет об ошибке 🐞
+description: Создайте отчет, чтобы помочь разработке
+title: "[Баг]: "
+labels: [ "баг" ]
+assignees:
+  - 13hz
+
+body:
+  - type: markdown
+    attributes:
+      value: Пожалуйста, заполните все поля ниже
+
+  - type: input
+    id: version
+    attributes:
+      label: Хэш версии
+      description: Укажите хэш версии
+      placeholder: 9af6e19
+    validations:
+      required: true
+
+  - type: textarea
+    id: bug-description
+    attributes:
+      label: Описание ошибки
+      description: Напишите описание найденнной ошибки
+      placeholder: Персонаж не двигается
+    validations:
+      required: true
+
+  - type: textarea
+    id: reproduce
+    attributes:
+      label: Шаги по воспроизведению
+      description: Напишите, как можно воспроизвести ошибку
+      placeholder: |
+        1. Склонировать репозиторий
+        2. Запустить в режиме разработки `npm run dev`
+        3. Персонаж не двигается
+    validations:
+      required: true
+
+  - type: textarea
+    id: expected
+    attributes:
+      label: Ожидаемый результат
+      description: Напишите, что по вашему мнению должно было произойти
+      placeholder: Персонаж реагирует на нажатие клавиш управления персонажем
+    validations:
+      required: false
+
+  - type: textarea
+    id: screenshots
+    attributes:
+      label: Скриншоты
+      description: Если возможно, приложите скриншоты с кодом ошибки из консоли отладки или из игры
+    validations:
+      required: false
+
+  - type: textarea
+    id: additional
+    attributes:
+      label: Дополнительная информация
+      description: Если есть что добавить помимо вышеописанного, укажите это здесь
+    validations:
+      required: false
