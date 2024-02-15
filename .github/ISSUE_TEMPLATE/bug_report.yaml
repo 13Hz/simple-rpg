@@ -9,15 +9,6 @@ body:
     attributes:
       value: Пожалуйста, заполните все поля ниже
 
-  - type: input
-    id: version
-    attributes:
-      label: Хэш версии
-      description: Укажите хэш версии
-      placeholder: 9af6e19
-    validations:
-      required: true
-
   - type: textarea
     id: bug-description
     attributes:
