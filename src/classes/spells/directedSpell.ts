@@ -3,7 +3,6 @@ import {Creature} from "../creature";
 import {GameObject} from "../gameObject";
 import {GameManager} from "../../managers/gameManager";
 import {Spell} from "../../types/spell";
-import {isDamageDealer} from "../../utils/functions";
 
 export abstract class DirectedSpell extends GameObject implements Spell<Point> {
     manaCost: number = 10;
@@ -24,7 +23,7 @@ export abstract class DirectedSpell extends GameObject implements Spell<Point> {
 
     cast(target: Point): void {
         // bullet.damage *= this._power;
-        if (this.isAlive && isDamageDealer(this) && this.initiator instanceof Creature && this.initiator.mana >= this.manaCost) {
+        if (this.isAlive && this.isDamageDealer() && this.initiator instanceof Creature && this.initiator.mana >= this.manaCost) {
             this.setCenter(this.initiator.getCenter());
             this._angle = Math.atan2(target.y - this.getCenter().y, target.x - this.getCenter().x);
             this._xVelocity = this._speed * Math.cos(this._angle);

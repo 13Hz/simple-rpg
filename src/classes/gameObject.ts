@@ -2,7 +2,7 @@ import {DrawManager} from "../managers/drawManager";
 import {Point} from "./point";
 import {GameManager} from "../managers/gameManager";
 import {TypedEvent} from "./typedEvent";
-import {checkCollision} from "../utils/functions";
+import {DamageDealer} from "../types/damageDealer";
 
 export class GameObject {
     private _point: Point;
@@ -71,14 +71,27 @@ export class GameObject {
         }
     }
 
+    isDamageDealer(): this is DamageDealer {
+        return 'damage' in this;
+    }
+
     update() {
         const cursorPoint = GameManager.cursorManager.point;
         this._isHover = (cursorPoint.x >= this._point.x && cursorPoint.x <= this._point.x + this._width) && (cursorPoint.y >= this._point.y && cursorPoint.y <= this._point.y + this._height);
         GameManager.getAllGameObject().forEach((object) => {
-            if (object && object !== this && checkCollision(this, object)) {
+            if (object && object !== this && this.checkCollision(object)) {
                 this.onCollision.emit(object);
             }
         });
+    }
+
+    checkCollision(object: GameObject): boolean {
+        return (
+            this.point.x <= object.point.x + object.width &&
+            this.point.x + this.width >= object.point.x &&
+            this.point.y <= object.point.y + object.height &&
+            this.point.y + this.height >= object.point.y
+        );
     }
 
     draw() {

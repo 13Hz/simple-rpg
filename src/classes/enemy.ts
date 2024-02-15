@@ -3,7 +3,7 @@ import {Point} from "./point";
 import {DrawManager} from "../managers/drawManager";
 import {Ui} from "./ui";
 import {GameObject} from "./gameObject";
-import {isDamageDealer} from "../utils/functions";
+import {GameManager} from "../managers/gameManager";
 
 export class Enemy extends Creature {
     private _spawnPoint: Point;
@@ -26,7 +26,7 @@ export class Enemy extends Creature {
         });
 
         this.onCollision.on((object: GameObject) => {
-            if (isDamageDealer(object)) {
+            if (object.isDamageDealer()) {
                 this.takeDamage(object);
                 object.isAlive = false;
                 this._target = object.initiator.point;
@@ -36,7 +36,7 @@ export class Enemy extends Creature {
 
         setInterval(() => {
             if (this.isAlive && !this._target) {
-                this.moveToPoint(Point.random);
+                this.moveToPoint(Point.random(GameManager.width, GameManager.height));
             }
         }, 1000);
     }

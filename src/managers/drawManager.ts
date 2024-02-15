@@ -1,5 +1,3 @@
-import {GameManager} from "./gameManager";
-
 export class DrawManager {
     private static context: CanvasRenderingContext2D | null | undefined;
     private static canvas: HTMLCanvasElement | null;
@@ -33,7 +31,7 @@ export class DrawManager {
     static clear(): void {
         this.draw((context) => {
             context.fillStyle = '#000';
-            context.fillRect(0, 0, GameManager.width, GameManager.height);
+            context.fillRect(0, 0, context.canvas.width, context.canvas.height);
         });
     }
 }

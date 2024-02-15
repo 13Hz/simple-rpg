@@ -1,6 +1,3 @@
-import {GameObject} from "../classes/gameObject";
-import {DamageDealer} from "../types/damageDealer";
-
 export function map(
     value: number,
     fromMin: number,
@@ -10,19 +7,6 @@ export function map(
 ): number {
     const percentage = (value - fromMin) / (fromMax - fromMin);
     return toMin + percentage * (toMax - toMin);
-}
-
-export function checkCollision(object1: GameObject, object2: GameObject): boolean {
-    return (
-        object1.point.x <= object2.point.x + object2.width &&
-        object1.point.x + object1.width >= object2.point.x &&
-        object1.point.y <= object2.point.y + object2.height &&
-        object1.point.y + object1.height >= object2.point.y
-    );
-}
-
-export function isDamageDealer(obj: object): obj is DamageDealer {
-    return 'damage' in obj;
 }
 
 export function rnd(min: number, max: number): number {

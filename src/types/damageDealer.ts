@@ -1,5 +1,5 @@
-import {GameObject} from "../classes/gameObject";
-import {TypedEvent} from "../classes/typedEvent";
+import type {GameObject} from "../classes/gameObject";
+import type {TypedEvent} from "../classes/typedEvent";
 
 export interface DamageDealer {
     damage: number;
