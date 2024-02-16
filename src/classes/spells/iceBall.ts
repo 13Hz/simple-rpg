@@ -14,13 +14,13 @@ export class IceBall extends DirectedSpell implements DamageDealer {
     private _orbitRadius: number = 3;
     private _orbitSpeed: number = 0.025;
 
-    readonly onDealDamage: TypedEvent<GameObject> = new TypedEvent<GameObject>();
+    readonly onDealDamage: TypedEvent = new TypedEvent();
 
     constructor(initiator: GameObject, size: number = 10, color: string = 'blue') {
         super(Point.empty, size, color);
         this.initiator = initiator;
 
-        this.onDealDamage.on(() => {
+        this.onDealDamage.on('onDealDamage', () => {
             this.isAlive = false;
         });
     }

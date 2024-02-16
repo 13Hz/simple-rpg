@@ -16,7 +16,7 @@ if (canvas) {
     document.addEventListener('keydown', (e) => GameManager.player.keyDown(e));
     document.addEventListener('keyup', (e) => GameManager.player.keyUp(e));
 
-    GameManager.cursorManager.onClick.on(() => {
+    GameManager.cursorManager.mouseEvents.on('onMouseClick', () => {
         GameManager.player.cast();
     });
 

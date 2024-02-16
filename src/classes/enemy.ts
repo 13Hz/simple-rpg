@@ -2,7 +2,6 @@ import {Creature} from "./creature";
 import {Point} from "./point";
 import {DrawManager} from "../managers/drawManager";
 import {Ui} from "./ui";
-import {GameObject} from "./gameObject";
 import {GameManager} from "../managers/gameManager";
 
 export class Enemy extends Creature {
@@ -21,15 +20,17 @@ export class Enemy extends Creature {
         this._spawnPoint = point;
         this._target = target;
 
-        this.onTakeDamage.on((initiator: Creature) => {
-            this._target = initiator.point;
+        this.onTakeDamage.on('onTakeDamage', (data) => {
+            if (data) {
+                this._target = data.damageObject.initiator.point;
+            }
         });
 
-        this.onCollision.on((object: GameObject) => {
-            if (object.isDamageDealer()) {
-                this.takeDamage(object);
-                object.isAlive = false;
-                this._target = object.initiator.point;
+        this.onCollision.on('onCollide', (data) => {
+            if (data && data.collidedObject.isDamageDealer()) {
+                this.takeDamage(data.collidedObject);
+                data.collidedObject.isAlive = false;
+                this._target = data.collidedObject.initiator.point;
                 this._isTakeDamage = true;
             }
         });

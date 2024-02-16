@@ -27,7 +27,7 @@ export class Creature extends GameObject {
     private _damageFramesCount: number = 0;
     private _isCritical: boolean = false;
 
-    readonly onTakeDamage: TypedEvent<Creature> = new TypedEvent<Creature>();
+    readonly onTakeDamage: TypedEvent = new TypedEvent();
 
     get healthRegenerationRate() {
         return this.isRunning ? this._healthRegenerationRate : this._healthRegenerationRate * 2;
@@ -149,7 +149,9 @@ export class Creature extends GameObject {
 
     takeDamage(by: DamageDealer): boolean {
         if (this.isAlive && by.isAlive) {
-            by.onDealDamage.emit(this);
+            by.onDealDamage.emit('onDealDamage', {
+                damageObject: by
+            });
             let damage = by.damage;
             if (by.initiator instanceof Creature) {
                 this._isCritical = rnd(0, 100) < by.initiator.criticalChance;
@@ -157,7 +159,10 @@ export class Creature extends GameObject {
             }
 
             this._health -= damage;
-            this.onTakeDamage.emit(this);
+
+            this.onTakeDamage.emit('onTakeDamage', {
+                damageObject: by
+            });
 
             this._showDamage = true;
             this._damageValue = damage;
@@ -177,7 +182,7 @@ export class Creature extends GameObject {
     forceTakeDamage(damage: number): boolean {
         if (this.isAlive) {
             this._health -= damage;
-            this.onTakeDamage.emit(this);
+            this.onTakeDamage.emit('onTakeDamage');
 
             if (this._health <= 0) {
                 this._health = 0;

@@ -12,7 +12,7 @@ export class GameObject {
     private _color: string;
     private _isHover: boolean = false;
 
-    public readonly onCollision: TypedEvent<GameObject> = new TypedEvent<GameObject>();
+    public readonly onCollision: TypedEvent = new TypedEvent();
 
     constructor(point: Point, size: number = 10, color: string = 'red') {
         this._point = point;
@@ -80,7 +80,10 @@ export class GameObject {
         this._isHover = (cursorPoint.x >= this._point.x && cursorPoint.x <= this._point.x + this._width) && (cursorPoint.y >= this._point.y && cursorPoint.y <= this._point.y + this._height);
         GameManager.getAllGameObject().forEach((object) => {
             if (object && object !== this && this.checkCollision(object)) {
-                this.onCollision.emit(object);
+                this.onCollision.emit('onCollide', {
+                    currentObject: this,
+                    collidedObject: object
+                });
             }
         });
     }

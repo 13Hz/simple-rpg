@@ -5,10 +5,7 @@ import {TypedEvent} from "../classes/typedEvent";
 export class CursorManager {
     private _point: Point = Point.empty;
 
-    public readonly onMouseMove: TypedEvent<CursorManager> = new TypedEvent<CursorManager>();
-    public readonly onClick: TypedEvent<CursorManager> = new TypedEvent<CursorManager>();
-    public readonly onMouseDown: TypedEvent<CursorManager> = new TypedEvent<CursorManager>();
-    public readonly onMouseUp: TypedEvent<CursorManager> = new TypedEvent<CursorManager>();
+    public readonly mouseEvents: TypedEvent = new TypedEvent();
 
     constructor() {
         const canvas = DrawManager.getCanvas();
@@ -16,16 +13,14 @@ export class CursorManager {
             canvas.onmousemove = (e) => {
                 this._point.x = e.x;
                 this._point.y = e.y;
-                this.onMouseMove.emit(this);
+                this.mouseEvents.emit('onMouseMove', {
+                    point: this._point
+                });
             };
             canvas.onclick = () => {
-                this.onClick.emit(this);
-            };
-            canvas.onmousedown = () => {
-                this.onMouseDown.emit(this);
-            };
-            canvas.onmouseup = () => {
-                this.onMouseUp.emit(this);
+                this.mouseEvents.emit('onMouseClick', {
+                    point: this._point
+                });
             };
         }
     }

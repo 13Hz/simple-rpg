@@ -1,44 +1,55 @@
-import {Listener} from "../types/listener";
-import {Disposable} from "../types/disposable";
+import type {OnCollisionEvent, OnCollisionEventPayload} from "../types/events/onCollisionEvent";
+import type {OnTakeDamageEvent, OnTakeDamageEventPayload} from "../types/events/onTakeDamageEvent";
+import type {OnDealDamageEvent, OnDealDamageEventPayload} from "../types/events/onDealDamageEvent";
+import type {OnMouseClickEvent, OnMouseMoveEvent, OnMouseEventPayload} from "../types/events/mouseEvents";
 
-export class TypedEvent<T> {
-    private listeners: Listener<T>[] = [];
-    private listenersOncer: Listener<T>[] = [];
+export interface EventMap {
+    [OnCollisionEvent]: OnCollisionEventPayload,
+    [OnTakeDamageEvent]: OnTakeDamageEventPayload,
+    [OnDealDamageEvent]: OnDealDamageEventPayload,
+    [OnMouseMoveEvent]: OnMouseEventPayload,
+    [OnMouseClickEvent]: OnMouseEventPayload,
+}
 
-    on = (listener: Listener<T>): Disposable => {
-        this.listeners.push(listener);
-        return {
-            dispose: () => this.off(listener),
-        };
-    };
+type EventHandler<Data> = (data?: Data) => void;
 
-    once = (listener: Listener<T>): void => {
-        this.listenersOncer.push(listener);
-    };
+type EventListeners<EventMap> = {
+    [Key in keyof EventMap]: EventHandler<EventMap[Key]>[];
+};
 
-    off = (listener: Listener<T>) => {
-        const callbackIndex = this.listeners.indexOf(
-            listener
-        );
-        if (callbackIndex > -1)
-            this.listeners.splice(callbackIndex, 1);
-    };
+export class TypedEvent {
+    private listeners = {} as EventListeners<EventMap>;
 
-    emit = (event: T) => {
-        /** Обновить слушателей */
-        this.listeners.forEach((listener) =>
-            listener(event)
-        );
-
-        /** Очистить очередь единожды */
-        if (this.listenersOncer.length > 0) {
-            const toCall = this.listenersOncer;
-            this.listenersOncer = [];
-            toCall.forEach((listener) => listener(event));
+    on<Name extends keyof EventMap>(eventName: Name, callback: EventHandler<EventMap[Name]>) {
+        if (!(eventName in this.listeners)) {
+            this.listeners[eventName] = [];
         }
-    };
+        this.listeners[eventName].push(callback);
+    }
 
-    pipe = (te: TypedEvent<T>): Disposable => {
-        return this.on((e) => te.emit(e));
-    };
+    off<Name extends keyof EventMap>(eventName: Name, callback: EventHandler<EventMap[Name]>) {
+        if (this.listeners[eventName] === undefined) {
+            return;
+        }
+        for (let i = this.listeners[eventName].length - 1; i >= 0; i--) {
+            if (this.listeners[eventName][i] === callback) {
+                delete this.listeners[eventName][i];
+            }
+        }
+    }
+
+    emit<Name extends keyof EventMap>(eventName: Name, data?: EventMap[Name]) {
+        if (!this.listeners || !this.listeners[eventName]) {
+            return;
+        }
+
+        this.listeners[eventName].reduce((previousData, currentHandler) => {
+            const newData = currentHandler(previousData);
+            return newData !== undefined ? newData : previousData;
+        }, data);
+    }
+
+    destroy() {
+        this.listeners = {} as EventListeners<EventMap>;
+    }
 }

@@ -5,5 +5,5 @@ export interface DamageDealer {
     damage: number;
     initiator: GameObject;
     isAlive: boolean;
-    readonly onDealDamage: TypedEvent<GameObject>;
+    readonly onDealDamage: TypedEvent;
 }

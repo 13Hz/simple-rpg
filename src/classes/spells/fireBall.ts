@@ -14,14 +14,14 @@ export class FireBall extends DirectedSpell implements DamageDealer {
     private _framesPerTrace: number = 10;
     private readonly _traceSize: number;
 
-    readonly onDealDamage: TypedEvent<GameObject> = new TypedEvent<GameObject>();
+    readonly onDealDamage: TypedEvent = new TypedEvent();
 
     constructor(initiator: GameObject, size: number = 10, color: string = 'red') {
         super(Point.empty, size, color);
         this._traceSize = size / 2;
         this.initiator = initiator;
 
-        this.onDealDamage.on(() => {
+        this.onDealDamage.on('onDealDamage', () => {
             this.isAlive = false;
         });
     }
