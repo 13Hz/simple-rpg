@@ -3,22 +3,32 @@ import {Point} from "./point";
 import {DrawManager} from "../managers/drawManager";
 import {Ui} from "./ui";
 import {GameManager} from "../managers/gameManager";
+import {DroppedItem} from "./droppedItem";
+import {DroppedItemChanse} from "./droppedItemChanse";
 
-export class Enemy extends Creature {
+export abstract class Enemy extends Creature {
     private _spawnPoint: Point;
     private _target: Point | null;
-    private _name: string = 'Dummy';
     private _isTakeDamage: boolean = false;
+    private _droppedItems: DroppedItem[] = [];
+    protected _name: string = 'Dummy';
     protected _health: number = this.lvl * 100;
     protected _maxHealth: number = this.lvl * 100;
     protected _healthRegenerationRate: number = 0.01;
     protected _speed: number = 0.003;
     protected _exp: number = 10;
 
-    constructor(point: Point, target: Point | null = null) {
+    constructor(point: Point, target: Point | null = null, dropChances: DroppedItemChanse[] = []) {
         super(point, 10, 'pink');
         this._spawnPoint = point;
         this._target = target;
+
+        dropChances.forEach((dropChance) => {
+            const droppedItem = dropChance.calculate();
+            if (droppedItem) {
+                this._droppedItems.push(droppedItem);
+            }
+        });
 
         this.onTakeDamage.on('onTakeDamage', (data) => {
             if (data) {
@@ -40,6 +50,8 @@ export class Enemy extends Creature {
                 this.moveToPoint(Point.random(GameManager.width, GameManager.height));
             }
         }, 1000);
+
+        console.log(this);
     }
 
     update() {
