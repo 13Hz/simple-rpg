@@ -1,5 +1,5 @@
 import {Enemy} from "../enemy";
-import {DroppedItemChanse} from "../droppedItemChanse";
+import {DroppedItemChance} from "../droppedItemChance";
 import {Items} from "../items/items";
 import {Point} from "../point";
 
@@ -10,7 +10,7 @@ export class Dummy extends Enemy {
 
     constructor(point: Point, target: Point | null = null) {
         super(point, target, [
-            new DroppedItemChanse(Items.Gold, 50, 1, 20)
+            new DroppedItemChance(Items.Gold, 50, 1, 20)
         ]);
     }
 }

@@ -3,8 +3,8 @@ import {Point} from "./point";
 import {DrawManager} from "../managers/drawManager";
 import {Ui} from "./ui";
 import {GameManager} from "../managers/gameManager";
-import {DroppedItem} from "./droppedItem";
-import {DroppedItemChanse} from "./droppedItemChanse";
+import type {DroppedItem} from "./droppedItem";
+import type {DroppedItemChance} from "./droppedItemChance";
 
 export abstract class Enemy extends Creature {
     private _spawnPoint: Point;
@@ -18,7 +18,7 @@ export abstract class Enemy extends Creature {
     protected _speed: number = 0.003;
     protected _exp: number = 10;
 
-    protected constructor(point: Point, target: Point | null = null, dropChances: DroppedItemChanse[] = []) {
+    protected constructor(point: Point, target: Point | null = null, dropChances: DroppedItemChance[] = []) {
         super(point, 10, 'pink');
         this._spawnPoint = point;
         this._target = target;

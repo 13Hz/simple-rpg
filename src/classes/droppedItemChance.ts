@@ -1,8 +1,8 @@
-import {Item} from "./item";
+import type {Item} from "./item";
 import {DroppedItem} from "./droppedItem";
 import {calculateChance, rnd} from "../utils/functions";
 
-export class DroppedItemChanse {
+export class DroppedItemChance {
     readonly item: Item;
     private readonly _chance: number = 0;
     private readonly _minCount: number = 0;
