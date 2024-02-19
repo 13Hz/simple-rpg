@@ -80,9 +80,11 @@ export class GameObject {
         const cursorPoint = GameManager.cursorManager.point;
         const isHover = (cursorPoint.x >= this._point.x && cursorPoint.x <= this._point.x + this._width) && (cursorPoint.y >= this._point.y && cursorPoint.y <= this._point.y + this._height);
         if (!this._isHover && isHover) {
+            GameManager.cursorManager.hoveredObject = this;
             this.mouseEvents.emit('onMouseEnter', {point: cursorPoint});
         }
         if (this._isHover && !isHover) {
+            GameManager.cursorManager.hoveredObject = null;
             this.mouseEvents.emit('onMouseLeave', {point: cursorPoint});
         }
         this._isHover = isHover;

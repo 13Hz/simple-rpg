@@ -17,6 +17,12 @@ if (canvas) {
     document.addEventListener('keyup', (e) => GameManager.player.keyUp(e));
 
     GameManager.cursorManager.mouseEvents.on('onMouseClick', () => {
+        const hovered = GameManager.cursorManager.hoveredObject;
+        if (hovered && !hovered.isAlive) {
+            //TODO: Обработка нажатия по объекту
+            return;
+        }
+
         GameManager.player.cast();
     });
 
