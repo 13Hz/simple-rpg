@@ -13,6 +13,7 @@ export class GameObject {
     private _isHover: boolean = false;
 
     public readonly onCollision: TypedEvent = new TypedEvent();
+    public readonly mouseEvents: TypedEvent = new TypedEvent();
 
     constructor(point: Point, size: number = 10, color: string = 'red') {
         this._point = point;
@@ -77,7 +78,15 @@ export class GameObject {
 
     update() {
         const cursorPoint = GameManager.cursorManager.point;
-        this._isHover = (cursorPoint.x >= this._point.x && cursorPoint.x <= this._point.x + this._width) && (cursorPoint.y >= this._point.y && cursorPoint.y <= this._point.y + this._height);
+        const isHover = (cursorPoint.x >= this._point.x && cursorPoint.x <= this._point.x + this._width) && (cursorPoint.y >= this._point.y && cursorPoint.y <= this._point.y + this._height);
+        if (!this._isHover && isHover) {
+            this.mouseEvents.emit('onMouseEnter', {point: cursorPoint});
+        }
+        if (this._isHover && !isHover) {
+            this.mouseEvents.emit('onMouseLeave', {point: cursorPoint});
+        }
+        this._isHover = isHover;
+
         GameManager.getAllGameObject().forEach((object) => {
             if (object && object !== this && this.checkCollision(object)) {
                 this.onCollision.emit('onCollide', {
