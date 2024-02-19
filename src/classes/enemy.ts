@@ -18,7 +18,7 @@ export abstract class Enemy extends Creature {
     protected _speed: number = 0.003;
     protected _exp: number = 10;
 
-    constructor(point: Point, target: Point | null = null, dropChances: DroppedItemChanse[] = []) {
+    protected constructor(point: Point, target: Point | null = null, dropChances: DroppedItemChanse[] = []) {
         super(point, 10, 'pink');
         this._spawnPoint = point;
         this._target = target;
@@ -37,7 +37,7 @@ export abstract class Enemy extends Creature {
         });
 
         this.onCollision.on('onCollide', (data) => {
-            if (data && data.collidedObject.isDamageDealer()) {
+            if (data && data.collidedObject.isDamageDealer() && this.isAlive) {
                 this.takeDamage(data.collidedObject);
                 data.collidedObject.isAlive = false;
                 this._target = data.collidedObject.initiator.point;
@@ -50,6 +50,10 @@ export abstract class Enemy extends Creature {
                 this.moveToPoint(Point.random(GameManager.width, GameManager.height));
             }
         }, 1000);
+    }
+
+    get droppedItems() {
+        return this._droppedItems;
     }
 
     update() {
@@ -88,14 +92,16 @@ export abstract class Enemy extends Creature {
 
     draw() {
         super.draw();
-        if (this.isHover || this._isTakeDamage) {
+        if (((this.isHover || this._isTakeDamage) && this.isAlive) || (this.isHover && this._droppedItems.length)) {
             DrawManager.draw((context) => {
                 context.font = '12px';
                 context.fillStyle = 'gray';
                 context.fillText(this._name, this.getCenter().x - context.measureText(this._name).width / 2, this.point.y - 25);
                 const levelText = `${this.lvl} lvl`;
                 context.fillText(levelText, this.getCenter().x - context.measureText(levelText).width / 2, this.point.y - 15);
-                Ui.drawBar(this.getCenter().x - 20, this.point.y - 40, 40, 3, this.health, 0, this._maxHealth, 'red', 0, false);
+                if (this.isAlive) {
+                    Ui.drawBar(this.getCenter().x - 20, this.point.y - 40, 40, 3, this.health, 0, this._maxHealth, 'red', 0, false);
+                }
             });
         }
     }
