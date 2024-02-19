@@ -50,8 +50,6 @@ export abstract class Enemy extends Creature {
                 this.moveToPoint(Point.random(GameManager.width, GameManager.height));
             }
         }, 1000);
-
-        console.log(this);
     }
 
     update() {
