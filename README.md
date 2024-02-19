@@ -1,3 +1,5 @@
+![615829fb-0b67-4820-a92a-2f3ab38847f5](https://github.com/13Hz/simple-rpg/assets/39442071/436ce457-138b-4f99-b38a-678c24fda4f9)
+
 # Простая RPG на TypeScript
 RPG с видом сверху на TypeScript. Сейчас происходит перенос и доработка того что уже было написано на Javascript
 
