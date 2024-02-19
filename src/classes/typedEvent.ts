@@ -1,7 +1,7 @@
 import type {OnCollisionEvent, OnCollisionEventPayload} from "../types/events/onCollisionEvent";
 import type {OnTakeDamageEvent, OnTakeDamageEventPayload} from "../types/events/onTakeDamageEvent";
 import type {OnDealDamageEvent, OnDealDamageEventPayload} from "../types/events/onDealDamageEvent";
-import type {OnMouseClickEvent, OnMouseMoveEvent, OnMouseEventPayload} from "../types/events/mouseEvents";
+import type {OnMouseClickEvent, OnMouseMoveEvent, OnMouseEnterEvent, OnMouseLeaveEvent, OnMouseEventPayload} from "../types/events/mouseEvents";
 
 export interface EventMap {
     [OnCollisionEvent]: OnCollisionEventPayload,
@@ -9,6 +9,8 @@ export interface EventMap {
     [OnDealDamageEvent]: OnDealDamageEventPayload,
     [OnMouseMoveEvent]: OnMouseEventPayload,
     [OnMouseClickEvent]: OnMouseEventPayload,
+    [OnMouseEnterEvent]: OnMouseEventPayload,
+    [OnMouseLeaveEvent]: OnMouseEventPayload,
 }
 
 type EventHandler<Data> = (data?: Data) => void;
