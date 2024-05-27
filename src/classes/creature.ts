@@ -3,6 +3,7 @@ import {TypedEvent} from "./typedEvent";
 import {DrawManager} from "../managers/drawManager";
 import {rnd} from "../utils/functions";
 import {DamageDealer} from "../types/damageDealer";
+import {CreatureEffect} from "./creatureEffects/creatureEffect";
 
 export class Creature extends GameObject {
     protected _health: number = 100;
@@ -26,6 +27,7 @@ export class Creature extends GameObject {
     private _damageValue: number = 0;
     private _damageFramesCount: number = 0;
     private _isCritical: boolean = false;
+    private _effects: CreatureEffect[] = [];
 
     readonly onTakeDamage: TypedEvent = new TypedEvent();
 
@@ -124,6 +126,9 @@ export class Creature extends GameObject {
 
     update() {
         super.update();
+        this._effects.forEach((effect) => {
+            effect.update(this);
+        });
         if (this.health <= 0) {
             this.isAlive = false;
         }
@@ -131,6 +136,9 @@ export class Creature extends GameObject {
 
     draw() {
         super.draw();
+        this._effects.forEach((effect) => {
+            effect.draw(this);
+        });
         if (this._showDamage) {
             DrawManager.draw((context) => {
                 context.fillStyle = this._isCritical ? 'red' : 'white';
@@ -171,6 +179,12 @@ export class Creature extends GameObject {
             if (this._health <= 0) {
                 this._health = 0;
                 this.isAlive = false;
+            } else {
+                by.effects.forEach((dealEffect) => {
+                    if (rnd(0, 100) < dealEffect.getChance()) {
+                        this._effects.push(dealEffect);
+                    }
+                });
             }
 
             return true;
@@ -182,7 +196,9 @@ export class Creature extends GameObject {
     forceTakeDamage(damage: number): boolean {
         if (this.isAlive) {
             this._health -= damage;
-            this.onTakeDamage.emit('onTakeDamage');
+            this.onTakeDamage.emit('onTakeDamage', {
+                damage: damage
+            });
 
             if (this._health <= 0) {
                 this._health = 0;

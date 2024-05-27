@@ -4,10 +4,12 @@ import {DamageDealer} from "../../types/damageDealer";
 import {GameObject} from "../gameObject";
 import {Point} from "../point";
 import {TypedEvent} from "../typedEvent";
+import {CreatureEffect} from "../creatureEffects/creatureEffect";
 
 export class IceBall extends DirectedSpell implements DamageDealer {
     initiator: GameObject;
     damage: number = 10;
+    effects: CreatureEffect[] = [];
     private _orbitAngle: number = 0;
     private _orbitCount: number = 3;
     private _orbitSize: number = 2;

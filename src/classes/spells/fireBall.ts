@@ -4,10 +4,13 @@ import {GameObject} from "../gameObject";
 import {Point} from "../point";
 import {TypedEvent} from "../typedEvent";
 import {DirectedSpell} from "./directedSpell";
+import {CreatureEffect} from "../creatureEffects/creatureEffect";
+import {FiredCreatureEffect} from "../creatureEffects/firedCreatureEffect";
 
 export class FireBall extends DirectedSpell implements DamageDealer {
     initiator: GameObject;
     damage: number = 10;
+    effects: CreatureEffect[];
     private _trace: Point[] = [];
     private _traceFrames: number = 0;
     private _traceLength: number = 3;
@@ -20,6 +23,9 @@ export class FireBall extends DirectedSpell implements DamageDealer {
         super(Point.empty, size, color);
         this._traceSize = size / 2;
         this.initiator = initiator;
+        this.effects = [
+            new FiredCreatureEffect(2, 40)
+        ];
 
         this.onDealDamage.on('onDealDamage', () => {
             this.isAlive = false;
