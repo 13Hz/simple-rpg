@@ -24,7 +24,7 @@ export class FireBall extends DirectedSpell implements DamageDealer {
         this._traceSize = size / 2;
         this.initiator = initiator;
         this.effects = [
-            new FiredCreatureEffect(2, 40)
+            new FiredCreatureEffect(2, 25, 2.5)
         ];
 
         this.onDealDamage.on('onDealDamage', () => {

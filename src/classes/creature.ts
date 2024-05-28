@@ -129,6 +129,7 @@ export class Creature extends GameObject {
         this._effects.forEach((effect) => {
             effect.update(this);
         });
+        this._effects = this._effects.filter((effect) => effect.isActive());
         if (this.health <= 0) {
             this.isAlive = false;
         }
@@ -181,7 +182,8 @@ export class Creature extends GameObject {
                 this.isAlive = false;
             } else {
                 by.effects.forEach((dealEffect) => {
-                    if (rnd(0, 100) < dealEffect.getChance()) {
+                    const effectExists = this._effects.some(effect => effect instanceof dealEffect.constructor);
+                    if (!effectExists && rnd(0, 100) < dealEffect.getChance()) {
                         this._effects.push(dealEffect);
                     }
                 });
