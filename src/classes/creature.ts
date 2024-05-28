@@ -84,6 +84,10 @@ export class Creature extends GameObject {
         return this._speed;
     }
 
+    setSpeed(speed?: number) {
+        this._speed = speed ?? 0.005;
+    }
+
     get maxVelocity() {
         return this._maxVelocity;
     }
@@ -182,13 +186,22 @@ export class Creature extends GameObject {
                 this.isAlive = false;
             } else {
                 by.effects.forEach((dealEffect) => {
-                    const effectExists = this._effects.some(effect => effect instanceof dealEffect.constructor);
-                    if (!effectExists && rnd(0, 100) < dealEffect.getChance()) {
-                        this._effects.push(dealEffect);
+                    if (this.addEffect(dealEffect)) {
+                        dealEffect.applyEffect(this);
                     }
                 });
             }
 
+            return true;
+        }
+
+        return false;
+    }
+
+    addEffect(dealEffect: CreatureEffect): boolean {
+        const effectExists = this._effects.some(effect => effect instanceof dealEffect.constructor);
+        if (!effectExists && rnd(0, 100) < dealEffect.getChance()) {
+            this._effects.push(dealEffect);
             return true;
         }
 

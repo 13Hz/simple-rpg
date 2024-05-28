@@ -5,6 +5,7 @@ import {GameObject} from "../gameObject";
 import {Point} from "../point";
 import {TypedEvent} from "../typedEvent";
 import {CreatureEffect} from "../creatureEffects/creatureEffect";
+import {IcingCreatureEffect} from "../creatureEffects/icingCreatureEffect";
 
 export class IceBall extends DirectedSpell implements DamageDealer {
     initiator: GameObject;
@@ -21,7 +22,9 @@ export class IceBall extends DirectedSpell implements DamageDealer {
     constructor(initiator: GameObject, size: number = 10, color: string = 'blue') {
         super(Point.empty, size, color);
         this.initiator = initiator;
-
+        this.effects = [
+            new IcingCreatureEffect(5, 40, 10)
+        ];
         this.onDealDamage.on('onDealDamage', () => {
             this.isAlive = false;
         });

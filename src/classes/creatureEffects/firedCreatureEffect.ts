@@ -61,4 +61,6 @@ export class FiredCreatureEffect extends CreatureEffect {
             this._flames.forEach((flame) => flame.draw());
         }
     }
+
+    public applyEffect(): void { }
 }

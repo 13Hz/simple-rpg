@@ -62,6 +62,14 @@ export class GameObject {
         this._color = color;
     }
 
+    get color() {
+        return this._color;
+    }
+
+    setColor(color?: string) {
+        this._color = color ?? 'red';
+    }
+
     setCenter(point: Point) {
         this._point = new Point(point.x - this._width / 2, point.y - this._height / 2);
     }

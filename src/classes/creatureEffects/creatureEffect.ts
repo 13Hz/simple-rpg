@@ -26,6 +26,8 @@ export abstract class CreatureEffect {
         return this._actionTime;
     }
 
+    public abstract applyEffect(owner: Creature): void
+
     public abstract update(owner: Creature): void
 
     public abstract draw(owner: Creature): void
