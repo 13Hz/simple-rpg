@@ -4,10 +4,13 @@ import {DamageDealer} from "../../types/damageDealer";
 import {GameObject} from "../gameObject";
 import {Point} from "../point";
 import {TypedEvent} from "../typedEvent";
+import {CreatureEffect} from "../creatureEffects/creatureEffect";
+import {IcingCreatureEffect} from "../creatureEffects/icingCreatureEffect";
 
 export class IceBall extends DirectedSpell implements DamageDealer {
     initiator: GameObject;
     damage: number = 10;
+    effects: CreatureEffect[] = [];
     private _orbitAngle: number = 0;
     private _orbitCount: number = 3;
     private _orbitSize: number = 2;
@@ -19,7 +22,9 @@ export class IceBall extends DirectedSpell implements DamageDealer {
     constructor(initiator: GameObject, size: number = 10, color: string = 'blue') {
         super(Point.empty, size, color);
         this.initiator = initiator;
-
+        this.effects = [
+            new IcingCreatureEffect(5, 40, 10)
+        ];
         this.onDealDamage.on('onDealDamage', () => {
             this.isAlive = false;
         });

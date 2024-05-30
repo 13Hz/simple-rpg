@@ -10,6 +10,7 @@ export abstract class DirectedSpell extends GameObject implements Spell<Point> {
     private _xVelocity: number = 0;
     private _yVelocity: number = 0;
     private _angle: number = 0;
+    private _debuffs: Array<number> = [];
 
     update() {
         super.update();

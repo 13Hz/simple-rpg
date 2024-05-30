@@ -31,7 +31,7 @@ export abstract class Enemy extends Creature {
         });
 
         this.onTakeDamage.on('onTakeDamage', (data) => {
-            if (data) {
+            if (data && data.damageObject) {
                 this._target = data.damageObject.initiator.point;
             }
         });
