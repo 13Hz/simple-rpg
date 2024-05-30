@@ -187,7 +187,7 @@ export class Creature extends GameObject {
             } else {
                 by.effects.forEach((dealEffect) => {
                     if (this.addEffect(dealEffect)) {
-                        dealEffect.applyEffect(this);
+                        dealEffect.onEffectApplied(this);
                     }
                 });
             }

@@ -62,5 +62,5 @@ export class FiredCreatureEffect extends CreatureEffect {
         }
     }
 
-    public applyEffect(): void { }
+    public onEffectApplied(): void { }
 }

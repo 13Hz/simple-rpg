@@ -26,7 +26,7 @@ export class IcingCreatureEffect extends CreatureEffect {
 
     public draw(): void { }
 
-    public applyEffect(owner: Creature): void {
+    public onEffectApplied(owner: Creature): void {
         this._tempColor = owner.color;
         this._tempSpeed = owner.speed;
         owner.setColor('blue');
