@@ -21,7 +21,7 @@ export class Enemy extends Creature {
         this._target = target;
 
         this.onTakeDamage.on('onTakeDamage', (data) => {
-            if (data) {
+            if (data && data.damageObject) {
                 this._target = data.damageObject.initiator.point;
             }
         });

@@ -7,8 +7,8 @@ import {DamageDealer} from "../types/damageDealer";
 export class GameObject {
     private _point: Point;
     private _isAlive: boolean = true;
-    private readonly _width: number;
-    private readonly _height: number;
+    private _width: number;
+    private _height: number;
     private _color: string;
     private _isHover: boolean = false;
 
@@ -49,8 +49,25 @@ export class GameObject {
         this._isAlive = isAlive;
     }
 
+    get size() {
+        return this._width;
+    }
+
+    set size(size: number) {
+        this._width = size;
+        this._height = size;
+    }
+
     set color(color: string) {
         this._color = color;
+    }
+
+    get color() {
+        return this._color;
+    }
+
+    setColor(color?: string) {
+        this._color = color ?? 'red';
     }
 
     setCenter(point: Point) {
