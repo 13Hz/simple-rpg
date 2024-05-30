@@ -11,16 +11,15 @@ export class FiredCreatureEffect extends CreatureEffect {
     private readonly _damage: number;
     private readonly _flameSizeSpeed: number = 0.015;
     private _flames: Flame[] = [];
-    private readonly _startTime: number;
+    private _startTime?: number;
 
     constructor(damage: number, chance: number, actionTime: number) {
         super(chance, actionTime);
         this._damage = damage;
-        this._startTime = Date.now();
     }
 
     public update(owner: Creature): void {
-        if (this.isActive()) {
+        if (this._startTime != null && this.isActive()) {
             const elapsedTime = Date.now() - this._startTime;
             if (elapsedTime / 1000 >= this.getActionTime()!) {
                 this.deactivate();
@@ -62,5 +61,7 @@ export class FiredCreatureEffect extends CreatureEffect {
         }
     }
 
-    public onEffectApplied(): void { }
+    public onEffectApplied(): void {
+        this._startTime = Date.now();
+    }
 }
