@@ -10,7 +10,7 @@ export class Dummy extends Enemy {
 
     constructor(point: Point, target: Point | null = null) {
         super(point, target, [
-            new DroppedItemChance(Items.Gold, 50, 1, 20)
+            new DroppedItemChance(Items.Gold, 100, 1, 20)
         ]);
     }
 }

@@ -12,6 +12,7 @@ if (canvas) {
 
     GameManager.player = new Player({x: 100, y: 100});
     GameManager.enemiesManager.add(new Dummy({x: 400, y: 400}));
+    GameManager.enemiesManager.add(new Dummy({x: 500, y: 500}));
 
     document.addEventListener('keydown', (e) => GameManager.player.keyDown(e));
     document.addEventListener('keyup', (e) => GameManager.player.keyUp(e));
@@ -19,7 +20,6 @@ if (canvas) {
     GameManager.cursorManager.mouseEvents.on('onMouseClick', () => {
         const hovered = GameManager.cursorManager.hoveredObject;
         if (hovered && !hovered.isAlive) {
-            //TODO: Обработка нажатия по объекту
             return;
         }
 

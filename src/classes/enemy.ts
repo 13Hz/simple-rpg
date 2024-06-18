@@ -55,7 +55,11 @@ export abstract class Enemy extends Creature {
                 document.body.style.cursor = 'default';
             }
         });
-
+        this.mouseEvents.on('onObjectClick', (data) => {
+            if (data && !this.isAlive && this._droppedItems.length) {
+                console.log(this._droppedItems);
+            }
+        });
         setInterval(() => {
             if (this.isAlive && !this._target) {
                 this.moveToPoint(Point.random(GameManager.width, GameManager.height));

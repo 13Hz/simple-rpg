@@ -1,7 +1,14 @@
 import type {OnCollisionEvent, OnCollisionEventPayload} from "../types/events/onCollisionEvent";
 import type {OnTakeDamageEvent, OnTakeDamageEventPayload} from "../types/events/onTakeDamageEvent";
 import type {OnDealDamageEvent, OnDealDamageEventPayload} from "../types/events/onDealDamageEvent";
-import type {OnMouseClickEvent, OnMouseMoveEvent, OnMouseEnterEvent, OnMouseLeaveEvent, OnMouseEventPayload} from "../types/events/mouseEvents";
+import {
+    OnMouseClickEvent,
+    OnMouseMoveEvent,
+    OnMouseEnterEvent,
+    OnMouseLeaveEvent,
+    OnMouseEventPayload,
+    OnObjectClickEvent, OnObjectClickEventPayload
+} from "../types/events/mouseEvents";
 
 export interface EventMap {
     [OnCollisionEvent]: OnCollisionEventPayload,
@@ -9,6 +16,7 @@ export interface EventMap {
     [OnDealDamageEvent]: OnDealDamageEventPayload,
     [OnMouseMoveEvent]: OnMouseEventPayload,
     [OnMouseClickEvent]: OnMouseEventPayload,
+    [OnObjectClickEvent]: OnObjectClickEventPayload,
     [OnMouseEnterEvent]: OnMouseEventPayload,
     [OnMouseLeaveEvent]: OnMouseEventPayload,
 }

@@ -3,6 +3,7 @@ import {Point} from "./point";
 import {GameManager} from "../managers/gameManager";
 import {TypedEvent} from "./typedEvent";
 import {DamageDealer} from "../types/damageDealer";
+import {isPointInObject} from "../utils/functions";
 
 export class GameObject {
     private _point: Point;
@@ -20,6 +21,14 @@ export class GameObject {
         this._color = color;
         this._width = size;
         this._height = size;
+        GameManager.cursorManager.mouseEvents.on('onMouseClick', (data) => {
+            if (data && isPointInObject(data.point, this)) {
+                this.mouseEvents.emit('onObjectClick', {
+                    point: data.point,
+                    object: this
+                });
+            }
+        });
     }
 
     get isHover() {
