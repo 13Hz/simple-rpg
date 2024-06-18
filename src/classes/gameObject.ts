@@ -3,7 +3,6 @@ import {Point} from "./point";
 import {GameManager} from "../managers/gameManager";
 import {TypedEvent} from "./typedEvent";
 import {DamageDealer} from "../types/damageDealer";
-import {isPointInObject} from "../utils/functions";
 
 export class GameObject {
     private _point: Point;
@@ -22,7 +21,7 @@ export class GameObject {
         this._width = size;
         this._height = size;
         GameManager.cursorManager.mouseEvents.on('onMouseClick', (data) => {
-            if (data && isPointInObject(data.point, this)) {
+            if (data && this.isPointInObject(data.point)) {
                 this.mouseEvents.emit('onObjectClick', {
                     point: data.point,
                     object: this
@@ -132,6 +131,17 @@ export class GameObject {
             this.point.y <= object.point.y + object.height &&
             this.point.y + this.height >= object.point.y
         );
+    }
+
+    isPointInObject(point: Point): boolean {
+        const { x: px, y: py } = point;
+        const { point: objPoint, width, height } = this;
+        const { x: ox, y: oy } = objPoint;
+
+        const withinX = px >= ox && px <= (ox + width);
+        const withinY = py >= oy && py <= (oy + height);
+
+        return withinX && withinY;
     }
 
     draw() {
