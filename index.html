@@ -1,27 +1,10 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Title</title>
-</head>
-<body>
-<input type="text" id="spawner" value=1 style="position: absolute; top: 15px; right: 86.6px; width: 30px;">
-<button id="spawn__button" style="position: absolute; top: 15px; right: 15px;">Spawn</button>
-<div id="lvlup">+</div>
-<div id="description">
-    <div class="title">Предмет</div>
-    <div class="body">
-        <div class="description__text">Текстовое описание предмета</div>
-        <div class="description__type flex gap-10">
-            <div class="type__title">Тип</div>
-            <div class="type__value">Тип</div>
-        </div>
-        <div class="description__cost flex gap-10">
-            <div class="cost__title">Цена</div>
-            <div class="cost__value">0</div>
-        </div>
-    </div>
-</div>
+    <head>
+        <meta charset="UTF-8">
+        <title>Title</title>
+    </head>
+    <body>
     <div class="main__container">
         <canvas id="canvas" width=600 height=600></canvas>
         <div id="help">
@@ -37,9 +20,19 @@
                 <b>C</b> - открыть окно характеристик<br>
             </p>
             <p><b>Противники</b></p>
-            <p>Что бы заспавнить противника - нажмите кнопку <b>Spawn</b> справа. Текстовое поле рядом позволяет указывать уровень противника</p>
+            <p>Что бы заспавнить противника - нажмите кнопку <b>Spawn</b> справа. Текстовое поле рядом позволяет указывать
+                уровень противника</p>
         </div>
     </div>
     <script type="module" src="src/app.ts"></script>
-</body>
+    </body>
+    <template id="window__template">
+        <div class="ui__window">
+            <div class="header">
+                <div class="title"></div>
+                <div class="close__button"></div>
+            </div>
+            <div class="body"></div>
+        </div>
+    </template>
 </html>

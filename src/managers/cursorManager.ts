@@ -9,15 +9,15 @@ export class CursorManager {
     public readonly mouseEvents: TypedEvent = new TypedEvent();
 
     constructor() {
+        document.onmousemove = (e) => {
+            this._point.x = e.x;
+            this._point.y = e.y;
+            this.mouseEvents.emit('onMouseMove', {
+                point: this._point
+            });
+        };
         const canvas = DrawManager.getCanvas();
         if (canvas) {
-            canvas.onmousemove = (e) => {
-                this._point.x = e.x;
-                this._point.y = e.y;
-                this.mouseEvents.emit('onMouseMove', {
-                    point: this._point
-                });
-            };
             canvas.onclick = () => {
                 this.mouseEvents.emit('onMouseClick', {
                     point: this._point

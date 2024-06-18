@@ -29,13 +29,11 @@ export abstract class Enemy extends Creature {
                 this._droppedItems.push(droppedItem);
             }
         });
-
         this.onTakeDamage.on('onTakeDamage', (data) => {
             if (data && data.damageObject) {
                 this._target = data.damageObject.initiator.point;
             }
         });
-
         this.onCollision.on('onCollide', (data) => {
             if (data && data.collidedObject.isDamageDealer() && this.isAlive) {
                 this.takeDamage(data.collidedObject);
@@ -44,7 +42,6 @@ export abstract class Enemy extends Creature {
                 this._isTakeDamage = true;
             }
         });
-
         this.mouseEvents.on('onMouseEnter', () => {
             if (!this.isAlive && this._droppedItems.length) {
                 document.body.style.cursor = 'pointer';
@@ -57,6 +54,7 @@ export abstract class Enemy extends Creature {
         });
         this.mouseEvents.on('onObjectClick', (data) => {
             if (data && !this.isAlive && this._droppedItems.length) {
+                GameManager.uiManager.openPocket();
                 console.log(this._droppedItems);
             }
         });
