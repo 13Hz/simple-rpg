@@ -17,10 +17,10 @@ export abstract class UiWindow {
             this._point = new Point(200, 200);
         }
 
-        const template: Element | null = document.querySelector('#window__template');
-        if (template) {
-            const uiWindow = template.content.firstElementChild.cloneNode(true);
-            const header = uiWindow.querySelector('.header');
+        const template: HTMLTemplateElement | null = document.querySelector('#window__template');
+        if (template && template.content.firstElementChild) {
+            const uiWindow = template.content.firstElementChild.cloneNode(true) as HTMLElement;
+            const header = uiWindow.querySelector('.header') as HTMLDivElement;
             if (header) {
                 header.addEventListener('mousedown', (event: MouseEvent) => {
                     if (event.target == header) {
@@ -46,7 +46,8 @@ export abstract class UiWindow {
                     });
                 }
             }
-            uiWindow.id = id;
+
+            uiWindow.id = this._id;
             uiWindow.style.left = `${this._point.x}px`;
             uiWindow.style.top = `${this._point.y}px`;
 
