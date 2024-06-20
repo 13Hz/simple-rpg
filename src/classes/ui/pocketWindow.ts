@@ -3,6 +3,6 @@ import {Point} from "../point";
 
 export class PocketWindow extends UiWindow {
     constructor(point?: Point) {
-        super('pocket', point);
+        super('pocket', 'Содержимое трупа', point);
     }
 }

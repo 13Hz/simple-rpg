@@ -1,16 +1,16 @@
 import {Point} from "../point";
-import {GameManager} from "../../managers/gameManager";
 
 export abstract class UiWindow {
-    private _id: string;
-    private _point: Point;
-    private _node?: Element;
+    private readonly _id: string;
+    private readonly _title: string;
+    private readonly _node?: HTMLElement;
     private _isMoved: boolean = false;
-    private _offsetX: number = 0;
-    private _offsetY: number = 0;
+    private _point: Point = Point.empty;
+    private _mouseStartPoint: Point = Point.empty;
 
-    constructor(id: string, point?: Point) {
+    protected constructor(id: string, title: string, point?: Point) {
         this._id = id;
+        this._title = title;
         if (point) {
             this._point = point;
         } else {
@@ -22,22 +22,13 @@ export abstract class UiWindow {
             const uiWindow = template.content.firstElementChild.cloneNode(true) as HTMLElement;
             const header = uiWindow.querySelector('.header') as HTMLDivElement;
             if (header) {
-                header.addEventListener('mousedown', (event: MouseEvent) => {
-                    if (event.target == header) {
-                        this._isMoved = true;
-                        this._offsetX = event.offsetX;
-                        this._offsetY = event.offsetY;
-                    }
-                });
-                header.addEventListener('mouseup', () => {
-                    this._isMoved = false;
-                });
-                GameManager.cursorManager.mouseEvents.on('onMouseMove', (data) => {
-                    if (data && this._isMoved) {
-                        uiWindow.style.left = `${data.point.x - this._offsetX}px`;
-                        uiWindow.style.top = `${data.point.y - this._offsetY}px`;
-                    }
-                });
+                const title = header.querySelector('.title') as HTMLElement;
+                if (title) {
+                    title.innerText = this._title;
+                }
+                header.addEventListener('mousedown', this.onMouseDown.bind(this));
+                document.addEventListener('mouseup', this.onMouseUp.bind(this));
+                document.addEventListener('mousemove', this.onMouseMove.bind(this));
                 const closeButton = header.querySelector('.close__button');
                 if (closeButton) {
                     closeButton.addEventListener('click', () => {
@@ -55,6 +46,35 @@ export abstract class UiWindow {
 
             document.body.appendChild(uiWindow);
         }
+    }
+
+    private onMouseDown(event: MouseEvent) {
+        if ((event.target as HTMLElement).classList.contains('close__button') || !this._node) {
+            return;
+        }
+
+        this._isMoved = true;
+        this._mouseStartPoint = new Point(event.clientX, event.clientY);
+        const rect = this._node.getBoundingClientRect();
+        this._point = new Point(rect.left, rect.top);
+
+        event.preventDefault();
+    }
+
+    private onMouseMove(event: MouseEvent) {
+        if (!this._isMoved || !this._node) {
+            return;
+        }
+
+        const dx = event.clientX - this._mouseStartPoint.x;
+        const dy = event.clientY - this._mouseStartPoint.y;
+
+        this._node.style.left = `${this._point.x + dx}px`;
+        this._node.style.top = `${this._point.y + dy}px`;
+    }
+
+    private onMouseUp() {
+        this._isMoved = false;
     }
 
     open(): void {
