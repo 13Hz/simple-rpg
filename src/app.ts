@@ -2,8 +2,8 @@ import './style.css';
 
 import {DrawManager} from "./managers/drawManager";
 import {Player} from "./classes/player";
-import {Enemy} from "./classes/enemy";
 import {GameManager} from "./managers/gameManager";
+import {Dummy} from "./classes/enemies/dummy";
 
 const canvas = DrawManager.getCanvas();
 if (canvas) {
@@ -11,12 +11,18 @@ if (canvas) {
     canvas.height = GameManager.height;
 
     GameManager.player = new Player({x: 100, y: 100});
-    GameManager.enemiesManager.add(new Enemy({x: 400, y: 400}));
+    GameManager.enemiesManager.add(new Dummy({x: 400, y: 400}));
+    GameManager.enemiesManager.add(new Dummy({x: 500, y: 500}));
 
     document.addEventListener('keydown', (e) => GameManager.player.keyDown(e));
     document.addEventListener('keyup', (e) => GameManager.player.keyUp(e));
 
     GameManager.cursorManager.mouseEvents.on('onMouseClick', () => {
+        const hovered = GameManager.cursorManager.hoveredObject;
+        if (hovered && !hovered.isAlive) {
+            return;
+        }
+
         GameManager.player.cast();
     });
 
