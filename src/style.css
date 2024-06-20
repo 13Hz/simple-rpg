@@ -67,3 +67,37 @@ body {
     display: flex;
     align-items: center;
 }
+
+.items__container {
+    padding: 10px;
+}
+
+.items {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    gap: 10px;
+}
+
+.items .item {
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+    background-color: #524437;
+    border-radius: 6px;
+    min-width: 35px;
+    padding: 5px;
+    gap: 5px;
+}
+
+.item .info {
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+    color: #a3a3a3;
+}
+
+.item .icon {
+    width: 50px;
+    height: 50px;
+    background-color: black;
+}

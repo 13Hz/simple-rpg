@@ -3,14 +3,12 @@ import {Point} from "./point";
 import {DrawManager} from "../managers/drawManager";
 import {Ui} from "./ui";
 import {GameManager} from "../managers/gameManager";
-import type {DroppedItem} from "./droppedItem";
 import type {DroppedItemChance} from "./droppedItemChance";
 
 export abstract class Enemy extends Creature {
     private _spawnPoint: Point;
     private _target: Point | null;
     private _isTakeDamage: boolean = false;
-    private _droppedItems: DroppedItem[] = [];
     protected _name: string = 'Dummy';
     protected _health: number = this.lvl * 100;
     protected _maxHealth: number = this.lvl * 100;
@@ -54,8 +52,7 @@ export abstract class Enemy extends Creature {
         });
         this.mouseEvents.on('onObjectClick', (data) => {
             if (data && !this.isAlive && this._droppedItems.length) {
-                GameManager.uiManager.openPocket();
-                console.log(this._droppedItems);
+                GameManager.uiManager.openPocket(this);
             }
         });
         setInterval(() => {

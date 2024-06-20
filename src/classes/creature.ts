@@ -4,6 +4,7 @@ import {DrawManager} from "../managers/drawManager";
 import {rnd} from "../utils/functions";
 import {DamageDealer} from "../types/damageDealer";
 import {CreatureEffect} from "./creatureEffects/creatureEffect";
+import type {DroppedItem} from "./droppedItem";
 
 export class Creature extends GameObject {
     protected _health: number = 100;
@@ -14,6 +15,7 @@ export class Creature extends GameObject {
     protected _manaRegenerationRate: number = 0.5;
     protected _exp: number = 0;
     protected _maxExp: number = 100;
+    protected _droppedItems: DroppedItem[] = [];
     private _lvl: number = 1;
     private _criticalChance: number = 5;
     private _criticalDamageMultiply: number = 2;
@@ -42,6 +44,10 @@ export class Creature extends GameObject {
     get criticalChance() {
         //TODO: Вычислять из характерситик
         return this._criticalChance;
+    }
+
+    get droppedItems() {
+        return this._droppedItems;
     }
 
     get mana() {
@@ -115,6 +121,14 @@ export class Creature extends GameObject {
     get baseDamage(): number {
         //TODO: Автовычисляемое поле на основе характеристик сущности
         return 10;
+    }
+
+    deleteDroppedItem(item: DroppedItem): void {
+        this._droppedItems = this._droppedItems.filter((droppedItem) => droppedItem != item);
+    }
+
+    hasDroppedItems(): boolean {
+        return this._droppedItems.length > 0;
     }
 
     regeneration() {

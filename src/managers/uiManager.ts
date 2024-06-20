@@ -1,14 +1,14 @@
-import {UiWindow} from "../classes/ui/uiWindow";
 import {PocketWindow} from "../classes/ui/pocketWindow";
+import {Creature} from "../classes/creature";
 
 export class UiManager {
-    private _pocketWindow: UiWindow;
+    private _pocketWindow: PocketWindow;
 
     constructor() {
         this._pocketWindow = new PocketWindow();
     }
 
-    openPocket() {
-        this._pocketWindow.open();
+    openPocket(creature: Creature) {
+        this._pocketWindow.show(creature);
     }
 }

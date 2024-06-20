@@ -3,7 +3,7 @@ import {Point} from "../point";
 export abstract class UiWindow {
     private readonly _id: string;
     private readonly _title: string;
-    private readonly _node?: HTMLElement;
+    protected readonly _node?: HTMLElement;
     private _isMoved: boolean = false;
     private _point: Point = Point.empty;
     private _mouseStartPoint: Point = Point.empty;
