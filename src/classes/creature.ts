@@ -15,7 +15,7 @@ export class Creature extends GameObject {
     protected _manaRegenerationRate: number = 0.5;
     protected _exp: number = 0;
     protected _maxExp: number = 100;
-    protected _droppedItems: DroppedItem[] = [];
+    protected _inventoryItems: DroppedItem[] = [];
     private _lvl: number = 1;
     private _criticalChance: number = 5;
     private _criticalDamageMultiply: number = 2;
@@ -46,8 +46,8 @@ export class Creature extends GameObject {
         return this._criticalChance;
     }
 
-    get droppedItems() {
-        return this._droppedItems;
+    get inventoryItems() {
+        return this._inventoryItems;
     }
 
     get mana() {
@@ -123,12 +123,36 @@ export class Creature extends GameObject {
         return 10;
     }
 
-    deleteDroppedItem(item: DroppedItem): void {
-        this._droppedItems = this._droppedItems.filter((droppedItem) => droppedItem != item);
+    getItemInInventory(item: DroppedItem): DroppedItem | null {
+        return this._inventoryItems.filter((inventoryItem) => inventoryItem.item == item.item)[0] ?? null;
     }
 
-    hasDroppedItems(): boolean {
-        return this._droppedItems.length > 0;
+    deleteInventoryItem(item: DroppedItem): void {
+        this._inventoryItems = this._inventoryItems.filter((inventoryItem) => inventoryItem != item);
+    }
+
+    addItemInInventory(item: DroppedItem): void {
+        if (item.isStackabe()) {
+            const itemInInventory = this.getItemInInventory(item);
+            if (itemInInventory) {
+                const totalCount = itemInInventory.count + item.count;
+                if (item.getMaxStackSize() == 0 || totalCount < item.getMaxStackSize()) {
+                    itemInInventory.count = totalCount;
+                } else {
+                    itemInInventory.count = item.getMaxStackSize();
+                    item.count = totalCount - item.getMaxStackSize();
+                    this._inventoryItems.push(item);
+                }
+            } else {
+                this._inventoryItems.push(item);
+            }
+        } else {
+            this._inventoryItems.push(item);
+        }
+    }
+
+    hasInventoryItems(): boolean {
+        return this._inventoryItems.length > 0;
     }
 
     regeneration() {

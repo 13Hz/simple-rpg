@@ -22,9 +22,9 @@ export abstract class Enemy extends Creature {
         this._target = target;
 
         dropChances.forEach((dropChance) => {
-            const droppedItem = dropChance.calculate();
-            if (droppedItem) {
-                this._droppedItems.push(droppedItem);
+            const item = dropChance.calculate();
+            if (item) {
+                this._inventoryItems.push(item);
             }
         });
         this.onTakeDamage.on('onTakeDamage', (data) => {
@@ -41,7 +41,7 @@ export abstract class Enemy extends Creature {
             }
         });
         this.mouseEvents.on('onMouseEnter', () => {
-            if (!this.isAlive && this._droppedItems.length) {
+            if (!this.isAlive && this.hasInventoryItems()) {
                 document.body.style.cursor = 'pointer';
             }
         });
@@ -51,7 +51,7 @@ export abstract class Enemy extends Creature {
             }
         });
         this.mouseEvents.on('onObjectClick', (data) => {
-            if (data && !this.isAlive && this._droppedItems.length) {
+            if (data && !this.isAlive && this.hasInventoryItems()) {
                 GameManager.uiManager.openPocket(this);
             }
         });
@@ -60,10 +60,6 @@ export abstract class Enemy extends Creature {
                 this.moveToPoint(Point.random(GameManager.width, GameManager.height));
             }
         }, 1000);
-    }
-
-    get droppedItems() {
-        return this._droppedItems;
     }
 
     update() {
@@ -102,7 +98,7 @@ export abstract class Enemy extends Creature {
 
     draw() {
         super.draw();
-        if (((this.isHover || this._isTakeDamage) && this.isAlive) || (this.isHover && this._droppedItems.length)) {
+        if (((this.isHover || this._isTakeDamage) && this.isAlive) || (this.isHover && this.hasInventoryItems())) {
             DrawManager.draw((context) => {
                 context.font = '12px';
                 context.fillStyle = 'gray';

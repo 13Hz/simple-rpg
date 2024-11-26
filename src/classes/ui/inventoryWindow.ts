@@ -1,28 +1,27 @@
 import {UiWindow} from "./uiWindow";
 import {Point} from "../point";
-import {Creature} from "../creature";
 import {GameManager} from "../../managers/gameManager";
 
-export class PocketWindow extends UiWindow {
+export class InventoryWindow extends UiWindow {
     constructor(point?: Point) {
-        super('pocket', 'Содержимое трупа', point);
+        super('inventory', 'Инвентарь', point);
     }
 
-    show(creature: Creature) {
-        this.update(creature);
+    show() {
+        this.update();
         this.open();
     }
 
-    private update(creature: Creature) {
+    update() {
         if (this._node) {
             const windowBody: HTMLElement | null = this._node.querySelector('.body');
             const bodyTemplate: HTMLTemplateElement | null = document.querySelector('#pocket_body__template');
             const itemTemplate: HTMLTemplateElement | null = document.querySelector('#item__template');
-            if (itemTemplate && windowBody && bodyTemplate && bodyTemplate.content.firstElementChild ) {
+            if (itemTemplate && windowBody && bodyTemplate && bodyTemplate.content.firstElementChild) {
                 const pocketBody = bodyTemplate.content.firstElementChild.cloneNode(true) as HTMLElement;
                 const pocketBodyItems = pocketBody.querySelector('.items');
                 if (pocketBodyItems) {
-                    creature.inventoryItems.forEach((item) => {
+                    GameManager.player.inventoryItems.forEach((item) => {
                         if (itemTemplate.content.firstElementChild) {
                             const itemNode = itemTemplate.content.firstElementChild.cloneNode(true) as HTMLElement;
                             const itemName = itemNode.querySelector('.name');
@@ -30,15 +29,6 @@ export class PocketWindow extends UiWindow {
                             if (itemName && itemCount) {
                                 itemName.textContent = item.item.name;
                                 itemCount.textContent = item.count.toString();
-                                itemNode.addEventListener('click', () => {
-                                    creature.deleteInventoryItem(item);
-                                    GameManager.player.addItemInInventory(item);
-                                    if (creature.hasInventoryItems()) {
-                                        this.update(creature);
-                                    } else {
-                                        this.close();
-                                    }
-                                });
                                 pocketBodyItems.appendChild(itemNode);
                             }
                         }

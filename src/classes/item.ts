@@ -11,4 +11,6 @@ export interface Item {
     readonly description: string;
     readonly rarity: Rarity;
     readonly cost: number;
+    readonly stackable: boolean;
+    readonly maxStackSize: number;
 }

@@ -6,7 +6,7 @@ export class GameObjectsManager<T extends GameObject> {
 
     getObjects(): T[] {
         this.objects = this.objects.filter((object) => {
-            const hasItems = 'droppedItems' in object && (object.droppedItems as Array<DroppedItem>).length;
+            const hasItems = 'inventoryItems' in object && (object.inventoryItems as Array<DroppedItem>).length;
             return hasItems || object.isAlive;
         });
 
