@@ -9,6 +9,10 @@ export class DroppedItem {
         this._count = count;
     }
 
+    clone() {
+        return new DroppedItem(this.item, this.count);
+    }
+
     set count(count: number) {
         this._count = this.getMaxStackSize() != 0 && count > this.getMaxStackSize() ? this.getMaxStackSize() : count;
     }

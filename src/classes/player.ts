@@ -130,6 +130,7 @@ export class Player extends Creature {
 
     addItemInInventory(item: DroppedItem) {
         super.addItemInInventory(item);
+        console.log(this.getItemCountInInventory(item));
         GameManager.uiManager.updateInventory();
     }
 
