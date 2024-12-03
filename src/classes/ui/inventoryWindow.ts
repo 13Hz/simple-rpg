@@ -29,6 +29,7 @@ export class InventoryWindow extends UiWindow {
                             if (itemName && itemCount) {
                                 itemName.textContent = item.item.name;
                                 itemCount.textContent = item.count.toString();
+                                itemNode.setAttribute('title', item.item.description);
                                 pocketBodyItems.appendChild(itemNode);
                             }
                         }

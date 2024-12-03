@@ -30,6 +30,7 @@ export class PocketWindow extends UiWindow {
                             if (itemName && itemCount) {
                                 itemName.textContent = item.item.name;
                                 itemCount.textContent = item.count.toString();
+                                itemNode.setAttribute('title', item.item.description);
                                 itemNode.addEventListener('click', () => {
                                     creature.deleteInventoryItem(item);
                                     GameManager.player.addItemInInventory(item);
