@@ -13,12 +13,21 @@ export class GameObject {
     private _isHover: boolean = false;
 
     public readonly onCollision: TypedEvent = new TypedEvent();
+    public readonly mouseEvents: TypedEvent = new TypedEvent();
 
     constructor(point: Point, size: number = 10, color: string = 'red') {
         this._point = point;
         this._color = color;
         this._width = size;
         this._height = size;
+        GameManager.cursorManager.mouseEvents.on('onMouseClick', (data) => {
+            if (data && this.isPointInObject(data.point)) {
+                this.mouseEvents.emit('onObjectClick', {
+                    point: data.point,
+                    object: this
+                });
+            }
+        });
     }
 
     get isHover() {
@@ -94,7 +103,17 @@ export class GameObject {
 
     update() {
         const cursorPoint = GameManager.cursorManager.point;
-        this._isHover = (cursorPoint.x >= this._point.x && cursorPoint.x <= this._point.x + this._width) && (cursorPoint.y >= this._point.y && cursorPoint.y <= this._point.y + this._height);
+        const isHover = (cursorPoint.x >= this._point.x && cursorPoint.x <= this._point.x + this._width) && (cursorPoint.y >= this._point.y && cursorPoint.y <= this._point.y + this._height);
+        if (!this._isHover && isHover) {
+            GameManager.cursorManager.hoveredObject = this;
+            this.mouseEvents.emit('onMouseEnter', {point: cursorPoint});
+        }
+        if (this._isHover && !isHover) {
+            GameManager.cursorManager.hoveredObject = null;
+            this.mouseEvents.emit('onMouseLeave', {point: cursorPoint});
+        }
+        this._isHover = isHover;
+
         GameManager.getAllGameObject().forEach((object) => {
             if (object && object !== this && this.checkCollision(object)) {
                 this.onCollision.emit('onCollide', {
@@ -112,6 +131,17 @@ export class GameObject {
             this.point.y <= object.point.y + object.height &&
             this.point.y + this.height >= object.point.y
         );
+    }
+
+    isPointInObject(point: Point): boolean {
+        const { x: px, y: py } = point;
+        const { point: objPoint, width, height } = this;
+        const { x: ox, y: oy } = objPoint;
+
+        const withinX = px >= ox && px <= (ox + width);
+        const withinY = py >= oy && py <= (oy + height);
+
+        return withinX && withinY;
     }
 
     draw() {

@@ -3,38 +3,58 @@ import {Point} from "./point";
 import {DrawManager} from "../managers/drawManager";
 import {Ui} from "./ui";
 import {GameManager} from "../managers/gameManager";
+import type {DroppedItemChance} from "./droppedItemChance";
 
-export class Enemy extends Creature {
+export abstract class Enemy extends Creature {
     private _spawnPoint: Point;
     private _target: Point | null;
-    private _name: string = 'Dummy';
     private _isTakeDamage: boolean = false;
+    protected _name: string = 'Dummy';
     protected _health: number = this.lvl * 100;
     protected _maxHealth: number = this.lvl * 100;
     protected _healthRegenerationRate: number = 0.01;
     protected _speed: number = 0.003;
     protected _exp: number = 10;
 
-    constructor(point: Point, target: Point | null = null) {
+    protected constructor(point: Point, target: Point | null = null, dropChances: DroppedItemChance[] = []) {
         super(point, 10, 'pink');
         this._spawnPoint = point;
         this._target = target;
 
+        dropChances.forEach((dropChance) => {
+            const item = dropChance.calculate();
+            if (item) {
+                this._inventoryItems.push(item);
+            }
+        });
         this.onTakeDamage.on('onTakeDamage', (data) => {
             if (data && data.damageObject) {
                 this._target = data.damageObject.initiator.point;
             }
         });
-
         this.onCollision.on('onCollide', (data) => {
-            if (data && data.collidedObject.isDamageDealer()) {
+            if (data && data.collidedObject.isDamageDealer() && this.isAlive) {
                 this.takeDamage(data.collidedObject);
                 data.collidedObject.isAlive = false;
                 this._target = data.collidedObject.initiator.point;
                 this._isTakeDamage = true;
             }
         });
-
+        this.mouseEvents.on('onMouseEnter', () => {
+            if (!this.isAlive && this.hasInventoryItems()) {
+                document.body.style.cursor = 'pointer';
+            }
+        });
+        this.mouseEvents.on('onMouseLeave', () => {
+            if (document.body.style.cursor == 'pointer') {
+                document.body.style.cursor = 'default';
+            }
+        });
+        this.mouseEvents.on('onObjectClick', (data) => {
+            if (data && !this.isAlive && this.hasInventoryItems()) {
+                GameManager.uiManager.openPocket(this);
+            }
+        });
         setInterval(() => {
             if (this.isAlive && !this._target) {
                 this.moveToPoint(Point.random(GameManager.width, GameManager.height));
@@ -78,14 +98,16 @@ export class Enemy extends Creature {
 
     draw() {
         super.draw();
-        if (this.isHover || this._isTakeDamage) {
+        if (((this.isHover || this._isTakeDamage) && this.isAlive) || (this.isHover && this.hasInventoryItems())) {
             DrawManager.draw((context) => {
                 context.font = '12px';
                 context.fillStyle = 'gray';
                 context.fillText(this._name, this.getCenter().x - context.measureText(this._name).width / 2, this.point.y - 25);
                 const levelText = `${this.lvl} lvl`;
                 context.fillText(levelText, this.getCenter().x - context.measureText(levelText).width / 2, this.point.y - 15);
-                Ui.drawBar(this.getCenter().x - 20, this.point.y - 40, 40, 3, this.health, 0, this._maxHealth, 'red', 0, false);
+                if (this.isAlive) {
+                    Ui.drawBar(this.getCenter().x - 20, this.point.y - 40, 40, 3, this.health, 0, this._maxHealth, 'red', 0, false);
+                }
             });
         }
     }

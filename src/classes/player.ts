@@ -4,6 +4,7 @@ import {Ui} from "./ui";
 import {GameManager} from "../managers/gameManager";
 import {FireBall} from "./spells/fireBall";
 import {IceBall} from "./spells/iceBall";
+import {DroppedItem} from "./droppedItem";
 
 export class Player extends Creature {
     private _w: boolean = false;
@@ -62,6 +63,9 @@ export class Player extends Creature {
         }
         if (e.code == 'Digit2') {
             this._isDefaultSpell = false;
+        }
+        if (e.code == 'KeyI') {
+            this.openInventory();
         }
     }
 
@@ -122,5 +126,14 @@ export class Player extends Creature {
     draw() {
         super.draw();
         Ui.draw();
+    }
+
+    addItemInInventory(item: DroppedItem) {
+        super.addItemInInventory(item);
+        GameManager.uiManager.updateInventory();
+    }
+
+    openInventory() {
+        GameManager.uiManager.openInventory();
     }
 }

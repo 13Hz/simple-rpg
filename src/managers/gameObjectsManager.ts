@@ -1,15 +1,19 @@
 import type {GameObject} from "../classes/gameObject";
+import type {DroppedItem} from "../classes/droppedItem";
 
-export class GameObjectsManager {
-    private objects: GameObject[] = [];
+export class GameObjectsManager<T extends GameObject> {
+    private objects: T[] = [];
 
-    getObjects(): GameObject[] {
-        this.objects = this.objects.filter((object) => object.isAlive);
+    getObjects(): T[] {
+        this.objects = this.objects.filter((object) => {
+            const hasItems = 'inventoryItems' in object && (object.inventoryItems as Array<DroppedItem>).length;
+            return hasItems || object.isAlive;
+        });
 
         return this.objects;
     }
 
-    add(object: GameObject): void {
+    add(object: T): void {
         this.objects.push(object);
     }
 

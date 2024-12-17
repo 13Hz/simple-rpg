@@ -4,6 +4,7 @@ import {DrawManager} from "../managers/drawManager";
 import {rnd} from "../utils/functions";
 import {DamageDealer} from "../types/damageDealer";
 import {CreatureEffect} from "./creatureEffects/creatureEffect";
+import type {DroppedItem} from "./droppedItem";
 
 export class Creature extends GameObject {
     protected _health: number = 100;
@@ -14,6 +15,7 @@ export class Creature extends GameObject {
     protected _manaRegenerationRate: number = 0.5;
     protected _exp: number = 0;
     protected _maxExp: number = 100;
+    protected _inventoryItems: DroppedItem[] = [];
     private _lvl: number = 1;
     private _criticalChance: number = 5;
     private _criticalDamageMultiply: number = 2;
@@ -42,6 +44,10 @@ export class Creature extends GameObject {
     get criticalChance() {
         //TODO: Вычислять из характерситик
         return this._criticalChance;
+    }
+
+    get inventoryItems() {
+        return this._inventoryItems;
     }
 
     get mana() {
@@ -115,6 +121,60 @@ export class Creature extends GameObject {
     get baseDamage(): number {
         //TODO: Автовычисляемое поле на основе характеристик сущности
         return 10;
+    }
+
+    getItemsInInventory(item: DroppedItem): DroppedItem[] {
+        return this._inventoryItems.filter((inventoryItem) => inventoryItem.item == item.item);
+    }
+
+    getItemCountInInventory(item: DroppedItem): number {
+        return this.getItemsInInventory(item).reduce((total, inventoryItem) => total + inventoryItem.count, 0);
+    }
+
+    deleteInventoryItem(item: DroppedItem): void {
+        this._inventoryItems = this._inventoryItems.filter((inventoryItem) => inventoryItem != item);
+    }
+
+    addItemInInventory(item: DroppedItem): void {
+        if (!item.isStackabe()) {
+            this._inventoryItems.push(item);
+            return;
+        }
+        const itemsInInventory = this.getItemsInInventory(item);
+        let remainder = item.count;
+        if (item.getMaxStackSize() > 0) {
+            itemsInInventory.filter((itemInInventory) => itemInInventory.count < itemInInventory.getMaxStackSize()).forEach((itemInInventory) => {
+                const needle = itemInInventory.getMaxStackSize() - itemInInventory.count;
+                const countToAdd = remainder - needle >= 0 ? needle : remainder;
+                if (countToAdd > 0) {
+                    itemInInventory.count += countToAdd;
+                    remainder -= countToAdd;
+                }
+            });
+            if (remainder > 0) {
+                const stacksCount = Math.floor(remainder / item.getMaxStackSize());
+                const stacksRemainder = remainder - stacksCount * item.getMaxStackSize();
+                for (let i = 0; i < stacksCount; i++) {
+                    const newItem = item.clone();
+                    newItem.count = item.getMaxStackSize();
+                    this._inventoryItems.push(newItem);
+                }
+                if (stacksRemainder > 0) {
+                    item.count = stacksRemainder;
+                    this._inventoryItems.push(item);
+                }
+            }
+        } else {
+            if (itemsInInventory.length) {
+                itemsInInventory[0].count += remainder;
+            } else {
+                this._inventoryItems.push(item);
+            }
+        }
+    }
+
+    hasInventoryItems(): boolean {
+        return this._inventoryItems.length > 0;
     }
 
     regeneration() {
