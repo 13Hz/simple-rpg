@@ -24,6 +24,10 @@ export class InventoryWindow extends UiWindow {
                     GameManager.player.inventoryItems.forEach((item) => {
                         if (itemTemplate.content.firstElementChild) {
                             const itemNode = itemTemplate.content.firstElementChild.cloneNode(true) as HTMLElement;
+                            const itemIcon: HTMLElement = itemNode.querySelector('.icon') as HTMLElement;
+                            if (itemIcon && item.item.icon) {
+                                itemIcon.style.backgroundImage = `url(${item.item.icon})`;
+                            }
                             const itemName = itemNode.querySelector('.name');
                             const itemCount = itemNode.querySelector('.count');
                             if (itemName && itemCount) {

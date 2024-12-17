@@ -9,6 +9,7 @@ export enum Rarity {
 export interface Item {
     readonly name: string;
     readonly description: string;
+    readonly icon?: URL;
     readonly rarity: Rarity;
     readonly cost: number;
     readonly stackable: boolean;
